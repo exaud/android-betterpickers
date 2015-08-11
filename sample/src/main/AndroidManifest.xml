@@ -341,5 +341,14 @@
                 <category android:name="com.doomonafireball.betterpickers.sample.SAMPLE" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.codetroopers.betterpickers.sample.activity.t9picker.SampleT9Default"
+            android:label="T9/Default"
+            android:theme="@style/Theme.AppCompat">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="com.doomonafireball.betterpickers.sample.SAMPLE" />
+            </intent-filter>
+        </activity>
     </application>
 </manifest>
