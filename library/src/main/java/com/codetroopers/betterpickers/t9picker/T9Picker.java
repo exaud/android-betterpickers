@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import com.codetroopers.betterpickers.R;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,6 +57,9 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
     private Integer mMaxNumber = null;
 
     private List<String> mKeys;
+    private String mLastKey;
+    private int mCurrentKey;
+    private long mClickedTimestamp;
 
     /**
      * Instantiates a NumberPicker object
@@ -88,6 +90,7 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
         mDeleteDrawableSrcResId = R.drawable.ic_backspace_dark;
         mDividerColor = getResources().getColor(R.color.default_divider_color_dark);
 
+        mClickedTimestamp = System.currentTimeMillis();
         mKeys = new ArrayList<>();
         mKeys.add("_");
         mKeys.add("");mKeys.add("ABC");mKeys.add("DEF");
@@ -160,7 +163,7 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
         mError = (T9PickerErrorTextView) findViewById(R.id.error);
 
         for (int i = 0; i < mInput.length; i++) {
-            mInput[i] = null;
+            mInput[i] = "";
         }
 
         View v1 = findViewById(R.id.first);
@@ -285,10 +288,7 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
             addClickedText(val);
         } else if (v == mDelete) {
             if (mInputPointer >= 0) {
-                for (int i = 0; i < mInputPointer; i++) {
-                    mInput[i] = mInput[i + 1];
-                }
-                mInput[mInputPointer] = null;
+                mInput[mInputPointer] = "";
                 mInputPointer--;
             }
         } else if (v == mLeft) {
@@ -352,23 +352,7 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
 
     // Update the number displayed in the picker:
     protected void updateNumber() {
-        String numberString = getEnteredNumberString();
-        numberString = numberString.replaceAll("\\-", "");
-        String[] split = numberString.split("\\.");
-        if (split.length >= 2) {
-            if (split[0].equals("")) {
-                mEnteredNumber.setNumber("0", split[1], containsDecimal(),
-                        mSign == SIGN_NEGATIVE);
-            } else {
-                mEnteredNumber.setNumber(split[0], split[1], containsDecimal(),
-                        mSign == SIGN_NEGATIVE);
-            }
-        } else if (split.length == 1) {
-            mEnteredNumber.setNumber(split[0], "", containsDecimal(),
-                    mSign == SIGN_NEGATIVE);
-        } else if (numberString.equals(".")) {
-            mEnteredNumber.setNumber("0", "", true, mSign == SIGN_NEGATIVE);
-        }
+        mEnteredNumber.setText(getEnteredText());
     }
 
     protected void setLeftRightEnabled() {
@@ -380,12 +364,28 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
     }
 
     private void addClickedText(String val) {
+        long now = System.currentTimeMillis();
+        boolean nextLetter = false;
+
+        if (now - mClickedTimestamp > 1500 || mLastKey != val) {
+            nextLetter = true;
+            mCurrentKey = 0;
+        }
+        mLastKey = val;
+        mClickedTimestamp = now;
+
+        String letter = "" + val.charAt(mCurrentKey);
+
         if (mInputPointer < mInputSize - 1) {
-            for (int i = mInputPointer; i >= 0; i--) {
-                mInput[i + 1] = mInput[i];
+            if (nextLetter) {
+                mInputPointer++;
             }
-            mInputPointer++;
-            mInput[0] = val;
+            mInput[mInputPointer] = letter;
+        }
+
+        mCurrentKey++;
+        if (mCurrentKey == val.length() || mCurrentKey == 0) {
+            mCurrentKey = 0;
         }
     }
 
@@ -421,36 +421,18 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
         return false;
     }
 
-    private String getEnteredNumberString() {
-        String value = "";
-        for (int i = mInputPointer; i >= 0; i--) {
-            if (mInput[i] == null) {
-                // Don't add
-            } else {
-                value += mInput[i];
-            }
-        }
-        return value;
-    }
-
     /**
-     * Returns the number inputted by the user
+     * Returns the text inputted by the user
      *
-     * @return a double representing the entered number
+     * @return a String representing the entered text
      */
-    public double getEnteredNumber() {
-        String value = "0";
-        for (int i = mInputPointer; i >= 0; i--) {
-            if (mInput[i] == null) {
-                break;
-            } else {
-                value += mInput[i];
-            }
+    public String getEnteredText() {
+        StringBuilder text = new StringBuilder();
+        int inputLength = mInput.length;
+        for (int i = 0; i < inputLength; i ++) {
+            text.append(mInput[i]);
         }
-        if (mSign == SIGN_NEGATIVE) {
-            value = "-" + value;
-        }
-        return Double.parseDouble(value);
+        return text.toString();
     }
 
     private void updateLeftRightButtons() {
@@ -491,19 +473,9 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
      * @return an int representation of the number with no decimal
      */
     public int getNumber() {
-        String numberString = Double.toString(getEnteredNumber());
+        String numberString = getEnteredText();
         String[] split = numberString.split("\\.");
         return Integer.parseInt(split[0]);
-    }
-
-    /**
-     * Returns the decimal following the number
-     *
-     * @return a double representation of the decimal value
-     */
-    public double getDecimal() {
-        double decimal = BigDecimal.valueOf(getEnteredNumber()).divideAndRemainder(BigDecimal.ONE)[1].doubleValue();
-        return decimal;
     }
 
     /**

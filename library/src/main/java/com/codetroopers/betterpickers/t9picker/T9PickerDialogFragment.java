@@ -181,38 +181,25 @@ public class T9PickerDialogFragment extends DialogFragment {
         mSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                double number = mPicker.getEnteredNumber();
-                if (mMinNumber != null && mMaxNumber != null && (number < mMinNumber || number > mMaxNumber)) {
-                    String errorText = String.format(getString(R.string.min_max_error), mMinNumber, mMaxNumber);
-                    mPicker.getErrorView().setText(errorText);
-                    mPicker.getErrorView().show();
-                    return;
-                } else if (mMinNumber != null && number < mMinNumber) {
-                    String errorText = String.format(getString(R.string.min_error), mMinNumber);
-                    mPicker.getErrorView().setText(errorText);
-                    mPicker.getErrorView().show();
-                    return;
-                } else if (mMaxNumber != null && number > mMaxNumber) {
-                    String errorText = String.format(getString(R.string.max_error), mMaxNumber);
+                String text = mPicker.getEnteredText();
+                if (text.isEmpty()) {
+                    String errorText = "Please enter a Text";
                     mPicker.getErrorView().setText(errorText);
                     mPicker.getErrorView().show();
                     return;
                 }
                 for (T9PickerDialogHandler handler : mT9PickerDialogHandlers) {
-                    handler.onDialogNumberSet(mReference, mPicker.getNumber(), mPicker.getDecimal(),
-                            mPicker.getIsNegative(), number);
+                    handler.onDialogTextSet(mReference, text);
                 }
                 final Activity activity = getActivity();
                 final Fragment fragment = getTargetFragment();
                 if (activity instanceof T9PickerDialogHandler) {
                     final T9PickerDialogHandler act =
                             (T9PickerDialogHandler) activity;
-                    act.onDialogNumberSet(mReference, mPicker.getNumber(), mPicker.getDecimal(),
-                            mPicker.getIsNegative(), number);
+                    act.onDialogTextSet(mReference, text);
                 } else if (fragment instanceof T9PickerDialogHandler) {
                     final T9PickerDialogHandler frag = (T9PickerDialogHandler) fragment;
-                    frag.onDialogNumberSet(mReference, mPicker.getNumber(), mPicker.getDecimal(),
-                            mPicker.getIsNegative(), number);
+                    frag.onDialogTextSet(mReference, text);
                 }
                 dismiss();
             }
@@ -247,7 +234,7 @@ public class T9PickerDialogFragment extends DialogFragment {
      */
     public interface T9PickerDialogHandler {
 
-        void onDialogNumberSet(int reference, int number, double decimal, boolean isNegative, double fullNumber);
+        void onDialogTextSet(int reference, String text);
     }
 
     /**

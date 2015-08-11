@@ -104,55 +104,29 @@ public class T9View extends LinearLayout {
     }
 
     /**
-     * Set the number shown
+     * Set the text shown
      *
-     * @param numbersDigit the non-decimal digits
-     * @param decimalDigit the decimal digits
-     * @param showDecimal whether it's a decimal or not
-     * @param isNegative whether it's positive or negative
+     * @param text the letters
      */
-    public void setNumber(String numbersDigit, String decimalDigit, boolean showDecimal,
-            boolean isNegative) {
-        mMinusLabel.setVisibility(isNegative ? View.VISIBLE : View.GONE);
+    public void setText(String text) {
+
         if (mNumber != null) {
-            if (numbersDigit.equals("")) {
+            if (text.isEmpty()) {
                 // Set to -
                 mNumber.setText("-");
                 mNumber.setTypeface(mAndroidClockMonoThin);
                 mNumber.setEnabled(false);
                 mNumber.updatePadding();
                 mNumber.setVisibility(View.VISIBLE);
-            } else if (showDecimal) {
-                // Set to bold
-                mNumber.setText(numbersDigit);
-                mNumber.setTypeface(mOriginalNumberTypeface);
-                mNumber.setEnabled(true);
-                mNumber.updatePaddingForBoldDate();
-                mNumber.setVisibility(View.VISIBLE);
             } else {
+
                 // Set to thin
-                mNumber.setText(numbersDigit);
-                mNumber.setTypeface(mAndroidClockMonoThin);
+                mNumber.setText(text);
+                mNumber.setTypeface(mOriginalNumberTypeface);
                 mNumber.setEnabled(true);
                 mNumber.updatePadding();
                 mNumber.setVisibility(View.VISIBLE);
             }
-        }
-        if (mDecimal != null) {
-            // Hide digit
-            if (decimalDigit.equals("")) {
-                mDecimal.setVisibility(View.GONE);
-            } else {
-                mDecimal.setText(decimalDigit);
-                mDecimal.setTypeface(mAndroidClockMonoThin);
-                mDecimal.setEnabled(true);
-                mDecimal.updatePadding();
-                mDecimal.setVisibility(View.VISIBLE);
-            }
-        }
-        if (mDecimalSeperator != null) {
-            // Hide separator
-            mDecimalSeperator.setVisibility(showDecimal ? View.VISIBLE : View.GONE);
         }
     }
 }
