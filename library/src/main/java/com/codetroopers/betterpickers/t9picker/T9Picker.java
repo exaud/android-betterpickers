@@ -290,6 +290,9 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
             if (mInputPointer >= 0) {
                 mInput[mInputPointer] = "";
                 mInputPointer--;
+
+                // Make delete update mLastKey
+                addClickedText(null);
             }
         } else if (v == mLeft) {
             onLeftClicked();
@@ -344,7 +347,7 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
      */
     public void reset() {
         for (int i = 0; i < mInputSize; i++) {
-            mInput[i] = null;
+            mInput[i] = "";
         }
         mInputPointer = -1;
         updateNumber();
@@ -374,18 +377,20 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
         mLastKey = val;
         mClickedTimestamp = now;
 
-        String letter = "" + val.charAt(mCurrentKey);
+        if (val != null) {
+            String letter = "" + val.charAt(mCurrentKey);
 
-        if (mInputPointer < mInputSize - 1) {
-            if (nextLetter) {
-                mInputPointer++;
+            if (mInputPointer < mInputSize - 1) {
+                if (nextLetter) {
+                    mInputPointer++;
+                }
+                mInput[mInputPointer] = letter;
             }
-            mInput[mInputPointer] = letter;
-        }
 
-        mCurrentKey++;
-        if (mCurrentKey == val.length() || mCurrentKey == 0) {
-            mCurrentKey = 0;
+            mCurrentKey++;
+            if (mCurrentKey == val.length() || mCurrentKey == 0) {
+                mCurrentKey = 0;
+            }
         }
     }
 
