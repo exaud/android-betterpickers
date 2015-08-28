@@ -393,6 +393,9 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
                     mInputPointer++;
                 }
                 mInput[mInputPointer] = letter;
+            } else if (mInputPointer == mInputSize - 1) {
+                // Same letter but on last space
+                mInput[mInputPointer] = letter;
             }
 
             mCurrentKey++;
