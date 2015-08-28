@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.codetroopers.betterpickers.R;
 
@@ -35,15 +34,9 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
     protected com.codetroopers.betterpickers.t9picker.T9View mEnteredText;
     protected final Context mContext;
 
-    private TextView mLabel;
     private T9PickerErrorTextView mError;
-    private int mSign;
     private String mLabelText = "";
     private Button mSetButton;
-    private static final int CLICKED_DECIMAL = 10;
-
-    public static final int SIGN_POSITIVE = 0;
-    public static final int SIGN_NEGATIVE = 1;
 
     protected View mDivider;
     private ColorStateList mTextColor;
@@ -55,16 +48,13 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
     private int mDeleteDrawableSrcResId;
     private int mTheme = -1;
 
-    private Integer mMinNumber = null;
-    private Integer mMaxNumber = null;
-
     private List<String> mKeys;
     private String mLastKey;
     private int mCurrentKey;
     private long mClickedTimestamp;
 
     /**
-     * Instantiates a NumberPicker object
+     * Instantiates a T9Picker object
      *
      * @param context the Context required for creation
      */
@@ -73,7 +63,7 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
     }
 
     /**
-     * Instantiates a NumberPicker object
+     * Instantiates a T9Picker object
      *
      * @param context the Context required for creation
      * @param attrs additional attributes that define custom colors, selectors, and backgrounds.
@@ -154,9 +144,6 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
         if (mEnteredText != null) {
             mEnteredText.setTheme(mTheme);
         }
-        if (mLabel != null) {
-            mLabel.setTextColor(mTextColor);
-        }
     }
 
     @Override
@@ -210,54 +197,12 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
         mRight.setImageDrawable(getResources().getDrawable(mCheckDrawableSrcResId));
         mLeft.setOnClickListener(this);
         mRight.setOnClickListener(this);
-        mLabel = (TextView) findViewById(R.id.label);
-        mSign = SIGN_POSITIVE;
 
         // Set the correct label state
         showLabel();
 
         restyleViews();
         updateKeypad();
-    }
-
-    /**
-     * Using View.GONE, View.VISIBILE, or View.INVISIBLE, set the visibility of the plus/minus indicator
-     *
-     * @param visiblity an int using Android's View.* convention
-     */
-    public void setPlusMinusVisibility(int visiblity) {
-        if (mLeft != null) {
-            mLeft.setVisibility(visiblity);
-        }
-    }
-
-    /**
-     * Using View.GONE, View.VISIBILE, or View.INVISIBLE, set the visibility of the decimal indicator
-     *
-     * @param visiblity an int using Android's View.* convention
-     */
-    public void setDecimalVisibility(int visiblity) {
-        if (mRight != null) {
-            mRight.setVisibility(visiblity);
-        }
-    }
-
-    /**
-     * Set a minimum required number
-     *
-     * @param min the minimum required number
-     */
-    public void setMin(int min) {
-        mMinNumber = min;
-    }
-
-    /**
-     * Set a maximum required number
-     *
-     * @param max the maximum required number
-     */
-    public void setMax(int max) {
-        mMaxNumber = max;
     }
 
     /**
@@ -271,9 +216,9 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
     }
 
     /**
-     * Expose the NumberView in order to set errors
+     * Expose the T9View in order to set errors
      *
-     * @return the NumberView
+     * @return the T9View
      */
     public T9PickerErrorTextView getErrorView() {
         return mError;
@@ -323,7 +268,7 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
 
     private void updateKeypad() {
         // Update state of keypad
-        // Update the number
+        // Update the text
         updateLeftRightButtons();
         updateText();
         // enable/disable the "set" key
@@ -406,18 +351,14 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
     }
 
     /**
-     * Clicking on the bottom left button will toggle the sign.
+     * Clicking on the bottom left button will TODO.
      */
     private void onLeftClicked() {
-        if (mSign == SIGN_POSITIVE) {
-            mSign = SIGN_NEGATIVE;
-        } else {
-            mSign = SIGN_POSITIVE;
-        }
+        // TODO
     }
 
     /**
-     * Clicking on the bottom right button will add a decimal point.
+     * Clicking on the bottom right button will TODO.
      */
     private void onRightClicked() {
         if (mInputPointer != -1) {
@@ -471,32 +412,11 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
         enableSetButton();
     }
 
-    /**
-     * Returns the number as currently inputted by the user
-     *
-     * @return an int representation of the number with no decimal
-     */
-    public int getNumber() {
-        String numberString = getEnteredText();
-        String[] split = numberString.split("\\.");
-        return Integer.parseInt(split[0]);
-    }
-
-    /**
-     * Returns whether the number is positive or negative
-     *
-     * @return true or false whether the number is positive or negative
-     */
-    public boolean getIsNegative() {
-        return mSign == SIGN_NEGATIVE;
-    }
-
     @Override
     public Parcelable onSaveInstanceState() {
         final Parcelable parcel = super.onSaveInstanceState();
         final SavedState state = new SavedState(parcel);
         state.mInput = mInput;
-        state.mSign = mSign;
         state.mInputPointer = mInputPointer;
         return state;
     }
@@ -517,17 +437,10 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
             mInput = new String[mInputSize];
             mInputPointer = -1;
         }
-        mSign = savedState.mSign;
         updateKeypad();
     }
 
-    public void setNumber(Integer integerPart, Double decimalPart, Integer mCurrentSign) {
-        if (mCurrentSign != null) {
-            mSign = mCurrentSign;
-        } else {
-            mSign = SIGN_POSITIVE;
-        }
-
+    public void setText() {
         updateKeypad();
     }
 
@@ -535,7 +448,6 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
 
         int mInputPointer;
         String[] mInput;
-        int mSign;
 
         public SavedState(Parcelable superState) {
             super(superState);
@@ -545,7 +457,6 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
             super(in);
             mInputPointer = in.readInt();
             in.readStringArray(mInput);
-            mSign = in.readInt();
         }
 
         @Override
@@ -553,7 +464,6 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
             super.writeToParcel(dest, flags);
             dest.writeInt(mInputPointer);
             dest.writeStringArray(mInput);
-            dest.writeInt(mSign);
         }
 
         public static final Creator<SavedState> CREATOR
