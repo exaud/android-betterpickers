@@ -5,7 +5,6 @@ import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -16,10 +15,8 @@ import com.codetroopers.betterpickers.R;
  */
 public class T9View extends LinearLayout {
 
-    private TextView mNumber;
-    private final Typeface mAndroidClockMonoThin;
+    private TextView  mNumber;
     private Typeface mOriginalNumberTypeface;
-
     private ColorStateList mTextColor;
 
     /**
@@ -39,9 +36,6 @@ public class T9View extends LinearLayout {
      */
     public T9View(Context context, AttributeSet attrs) {
         super(context, attrs);
-
-        mAndroidClockMonoThin =
-                Typeface.createFromAsset(context.getAssets(), "fonts/AndroidClockMono-Thin.ttf");
 
         // Init defaults
         mTextColor = getResources().getColorStateList(R.color.dialog_text_color_holo_dark);
@@ -76,10 +70,6 @@ public class T9View extends LinearLayout {
         if (mNumber != null) {
             mOriginalNumberTypeface = mNumber.getTypeface();
         }
-        // Set the lowest time unit with thin font
-        if (mNumber != null) {
-            mNumber.setTypeface(mAndroidClockMonoThin);
-        }
 
         restyleViews();
     }
@@ -95,16 +85,13 @@ public class T9View extends LinearLayout {
             if (text.isEmpty()) {
                 // Set to -
                 mNumber.setText("-");
-                mNumber.setTypeface(mAndroidClockMonoThin);
                 mNumber.setEnabled(false);
-                mNumber.setVisibility(View.VISIBLE);
             } else {
 
                 // Set to thin
                 mNumber.setText(text);
                 mNumber.setTypeface(mOriginalNumberTypeface);
                 mNumber.setEnabled(true);
-                mNumber.setVisibility(View.VISIBLE);
             }
         }
     }

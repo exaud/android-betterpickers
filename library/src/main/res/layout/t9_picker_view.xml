@@ -64,7 +64,7 @@
                 layout="@layout/three_keys_view"
                 android:id="@+id/third"/>
         <include
-                layout="@layout/three_keys_view_leftright"
+                layout="@layout/t9_three_keys_view_leftright"
                 android:id="@+id/fourth"/>
     </LinearLayout>
     <com.codetroopers.betterpickers.t9picker.T9PickerErrorTextView

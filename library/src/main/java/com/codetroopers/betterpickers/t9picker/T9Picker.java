@@ -30,7 +30,7 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
     protected final Button mNumbers[] = new Button[10];
     protected String mInput[] = new String[mInputSize];
     protected int mInputPointer = -1;
-    protected Button mLeft, mRight;
+    protected ImageButton mLeft, mRight;
     protected ImageButton mDelete;
     protected com.codetroopers.betterpickers.t9picker.T9View mEnteredNumber;
     protected final Context mContext;
@@ -50,6 +50,8 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
     private int mKeyBackgroundResId;
     private int mButtonBackgroundResId;
     private int mDividerColor;
+    private int mCheckDrawableSrcResId;
+    private int mShiftDrawableSrcResId;
     private int mDeleteDrawableSrcResId;
     private int mTheme = -1;
 
@@ -89,11 +91,13 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
         mButtonBackgroundResId = R.drawable.button_background_dark;
         mDeleteDrawableSrcResId = R.drawable.ic_backspace_dark;
         mDividerColor = getResources().getColor(R.color.default_divider_color_dark);
+        mCheckDrawableSrcResId = R.drawable.ic_check_dark;
+        mShiftDrawableSrcResId = R.drawable.sym_keyboard_shift;
 
         mClickedTimestamp = System.currentTimeMillis();
         mKeys = new ArrayList<>();
         mKeys.add("_");
-        mKeys.add("");mKeys.add("ABC");mKeys.add("DEF");
+        mKeys.add(" ");mKeys.add("ABC");mKeys.add("DEF");
         mKeys.add("GHI");mKeys.add("JKL");mKeys.add("MNO");
         mKeys.add("PQRS");mKeys.add("TUV");mKeys.add("WXYZ");
     }
@@ -136,12 +140,12 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
             mDivider.setBackgroundColor(mDividerColor);
         }
         if (mLeft != null) {
-            mLeft.setTextColor(mTextColor);
             mLeft.setBackgroundResource(mKeyBackgroundResId);
+            mLeft.setImageDrawable(getResources().getDrawable(mShiftDrawableSrcResId));
         }
         if (mRight != null) {
-            mRight.setTextColor(mTextColor);
             mRight.setBackgroundResource(mKeyBackgroundResId);
+            mRight.setImageDrawable(getResources().getDrawable(mCheckDrawableSrcResId));
         }
         if (mDelete != null) {
             mDelete.setBackgroundResource(mButtonBackgroundResId);
@@ -187,9 +191,9 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
         mNumbers[8] = (Button) v3.findViewById(R.id.key_middle);
         mNumbers[9] = (Button) v3.findViewById(R.id.key_right);
 
-        mLeft = (Button) v4.findViewById(R.id.key_left);
+        mLeft = (ImageButton) v4.findViewById(R.id.key_left);
         mNumbers[0] = (Button) v4.findViewById(R.id.key_middle);
-        mRight = (Button) v4.findViewById(R.id.key_right);
+        mRight = (ImageButton) v4.findViewById(R.id.key_right);
         setLeftRightEnabled();
 
         for (int i = 0; i < 10; i++) {
@@ -200,8 +204,10 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
         updateNumber();
 
         Resources res = mContext.getResources();
-        mLeft.setText(res.getString(R.string.number_picker_plus_minus));
-        mRight.setText(res.getString(R.string.number_picker_seperator));
+        mLeft.setBackgroundResource(mKeyBackgroundResId);
+        mLeft.setImageDrawable(getResources().getDrawable(mShiftDrawableSrcResId));
+        mRight.setBackgroundResource(mKeyBackgroundResId);
+        mRight.setImageDrawable(getResources().getDrawable(mCheckDrawableSrcResId));
         mLeft.setOnClickListener(this);
         mRight.setOnClickListener(this);
         mLabel = (TextView) findViewById(R.id.label);
@@ -287,7 +293,7 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
             // A number was pressed
             addClickedText(val);
         } else if (v == mDelete) {
-            if (mInputPointer >= 0) {
+            if (mInputPointer != -1) {
                 mInput[mInputPointer] = "";
                 mInputPointer--;
 
@@ -360,10 +366,7 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
 
     protected void setLeftRightEnabled() {
         mLeft.setEnabled(true);
-        mRight.setEnabled(canAddDecimal());
-        if (!canAddDecimal()) {
-            mRight.setContentDescription(null);
-        }
+        mRight.setEnabled(false);
     }
 
     private void addClickedText(String val) {
@@ -409,21 +412,9 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
      * Clicking on the bottom right button will add a decimal point.
      */
     private void onRightClicked() {
-        if (canAddDecimal()) {
+        if (mInputPointer != -1) {
+            // TODO
         }
-    }
-
-    private boolean containsDecimal() {
-        return false;
-    }
-
-    /**
-     * Checks if the user allowed to click on the right button.
-     *
-     * @return true or false if the user is able to add a decimal or not
-     */
-    private boolean canAddDecimal() {
-        return false;
     }
 
     /**
@@ -441,7 +432,7 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
     }
 
     private void updateLeftRightButtons() {
-        mRight.setEnabled(canAddDecimal());
+        mRight.setEnabled(mInputPointer != -1);
     }
 
     /**
