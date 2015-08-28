@@ -83,8 +83,8 @@ public class T9View extends LinearLayout {
 
         if (mNumber != null) {
             if (text.isEmpty()) {
-                // Set to -
-                mNumber.setText("-");
+                // Set to empty
+                mNumber.setText("");
                 mNumber.setEnabled(false);
             } else {
 
