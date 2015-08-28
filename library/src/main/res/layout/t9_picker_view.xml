@@ -4,7 +4,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     <LinearLayout
-            android:id="@+id/number_view_container"
+            android:id="@+id/t9_view_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center">
@@ -24,7 +24,7 @@
                     android:baselineAligned="false"
                     android:gravity="top">
                 <TextView
-                        android:id="@+id/number"
+                        android:id="@+id/text"
                         android:singleLine="true"
                         android:ellipsize="none"
                         style="@style/medium_bold"
@@ -47,7 +47,7 @@
             android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="1dip"
-            android:layout_below="@id/number_view_container"
+            android:layout_below="@id/t9_view_container"
             android:background="@color/default_divider_color_dark"/>
     <LinearLayout
             android:layout_width="fill_parent"

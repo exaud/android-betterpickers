@@ -15,12 +15,12 @@ import com.codetroopers.betterpickers.R;
  */
 public class T9View extends LinearLayout {
 
-    private TextView  mNumber;
-    private Typeface mOriginalNumberTypeface;
+    private TextView mText;
+    private Typeface mOriginalTextTypeface;
     private ColorStateList mTextColor;
 
     /**
-     * Instantiate a NumberView
+     * Instantiate a T9View
      *
      * @param context the Context in which to inflate the View
      */
@@ -29,7 +29,7 @@ public class T9View extends LinearLayout {
     }
 
     /**
-     * Instantiate a NumberView
+     * Instantiate a T9View
      *
      * @param context the Context in which to inflate the View
      * @param attrs attributes that define the title color
@@ -57,8 +57,8 @@ public class T9View extends LinearLayout {
     }
 
     private void restyleViews() {
-        if (mNumber != null) {
-            mNumber.setTextColor(mTextColor);
+        if (mText != null) {
+            mText.setTextColor(mTextColor);
         }
     }
 
@@ -66,9 +66,9 @@ public class T9View extends LinearLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
 
-        mNumber = (TextView) findViewById(R.id.number);
-        if (mNumber != null) {
-            mOriginalNumberTypeface = mNumber.getTypeface();
+        mText = (TextView) findViewById(R.id.text);
+        if (mText != null) {
+            mOriginalTextTypeface = mText.getTypeface();
         }
 
         restyleViews();
@@ -81,17 +81,17 @@ public class T9View extends LinearLayout {
      */
     public void setText(String text) {
 
-        if (mNumber != null) {
+        if (mText != null) {
             if (text.isEmpty()) {
                 // Set to empty
-                mNumber.setText("");
-                mNumber.setEnabled(false);
+                mText.setText("");
+                mText.setEnabled(false);
             } else {
 
                 // Set to thin
-                mNumber.setText(text);
-                mNumber.setTypeface(mOriginalNumberTypeface);
-                mNumber.setEnabled(true);
+                mText.setText(text);
+                mText.setTypeface(mOriginalTextTypeface);
+                mText.setEnabled(true);
             }
         }
     }

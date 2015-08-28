@@ -32,7 +32,7 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
     protected int mInputPointer = -1;
     protected ImageButton mLeft, mRight;
     protected ImageButton mDelete;
-    protected com.codetroopers.betterpickers.t9picker.T9View mEnteredNumber;
+    protected com.codetroopers.betterpickers.t9picker.T9View mEnteredText;
     protected final Context mContext;
 
     private TextView mLabel;
@@ -151,8 +151,8 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
             mDelete.setBackgroundResource(mButtonBackgroundResId);
             mDelete.setImageDrawable(getResources().getDrawable(mDeleteDrawableSrcResId));
         }
-        if (mEnteredNumber != null) {
-            mEnteredNumber.setTheme(mTheme);
+        if (mEnteredText != null) {
+            mEnteredText.setTheme(mTheme);
         }
         if (mLabel != null) {
             mLabel.setTextColor(mTextColor);
@@ -174,7 +174,7 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
         View v2 = findViewById(R.id.second);
         View v3 = findViewById(R.id.third);
         View v4 = findViewById(R.id.fourth);
-        mEnteredNumber = (T9View) findViewById(R.id.t9_text);
+        mEnteredText = (T9View) findViewById(R.id.t9_text);
         mDelete = (ImageButton) findViewById(R.id.delete);
         mDelete.setOnClickListener(this);
         mDelete.setOnLongClickListener(this);
@@ -201,7 +201,7 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
             mNumbers[i].setText(mKeys.get(i));
             mNumbers[i].setTag(R.id.numbers_key, mKeys.get(i));
         }
-        updateNumber();
+        updateText();
 
         Resources res = mContext.getResources();
         mLeft.setBackgroundResource(mKeyBackgroundResId);
@@ -325,7 +325,7 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
         // Update state of keypad
         // Update the number
         updateLeftRightButtons();
-        updateNumber();
+        updateText();
         // enable/disable the "set" key
         enableSetButton();
         // Update the backspace button
@@ -356,12 +356,12 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
             mInput[i] = "";
         }
         mInputPointer = -1;
-        updateNumber();
+        updateText();
     }
 
-    // Update the number displayed in the picker:
-    protected void updateNumber() {
-        mEnteredNumber.setText(getEnteredText());
+    // Update the text displayed in the picker:
+    protected void updateText() {
+        mEnteredText.setText(getEnteredText());
     }
 
     protected void setLeftRightEnabled() {
