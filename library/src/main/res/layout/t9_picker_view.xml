@@ -23,45 +23,13 @@
                     android:layout_gravity="left"
                     android:baselineAligned="false"
                     android:gravity="top">
-                <com.codetroopers.betterpickers.widget.ZeroTopPaddingTextView
+                <TextView
                         android:id="@+id/number"
                         android:singleLine="true"
                         android:ellipsize="none"
                         style="@style/medium_bold"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"/>
-                <com.codetroopers.betterpickers.widget.ZeroTopPaddingTextView
-                        android:id="@+id/decimal_separator"
-                        android:singleLine="true"
-                        android:ellipsize="none"
-                        style="@style/medium_light"
-                        android:text="@string/number_picker_seperator"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"/>
-                <com.codetroopers.betterpickers.widget.ZeroTopPaddingTextView
-                        android:id="@+id/decimal"
-                        android:singleLine="true"
-                        android:ellipsize="none"
-                        style="@style/medium_bold"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"/>
-                <com.codetroopers.betterpickers.widget.ZeroTopPaddingTextView
-                        android:id="@+id/label"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:singleLine="true"
-                        android:ellipsize="none"
-                        style="@style/label"
-                        android:gravity="top"/>
-                <com.codetroopers.betterpickers.widget.ZeroTopPaddingTextView
-                        android:id="@+id/minus_label"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:singleLine="true"
-                        android:ellipsize="none"
-                        style="@style/label"
-                        android:gravity="top"
-                        android:text="@string/number_picker_minus_label"/>
             </com.codetroopers.betterpickers.t9picker.T9View>
         </com.codetroopers.betterpickers.widget.AutoScrollHorizontalScrollView>
         <ImageButton

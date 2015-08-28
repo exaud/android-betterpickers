@@ -7,18 +7,16 @@ import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.codetroopers.betterpickers.R;
-import com.codetroopers.betterpickers.widget.ZeroTopPaddingTextView;
 
 /**
  * User: andreomlopes Date: 8/7/15
  */
 public class T9View extends LinearLayout {
 
-    private ZeroTopPaddingTextView mNumber, mDecimal;
-    private ZeroTopPaddingTextView mDecimalSeperator;
-    private ZeroTopPaddingTextView mMinusLabel;
+    private TextView mNumber;
     private final Typeface mAndroidClockMonoThin;
     private Typeface mOriginalNumberTypeface;
 
@@ -68,36 +66,19 @@ public class T9View extends LinearLayout {
         if (mNumber != null) {
             mNumber.setTextColor(mTextColor);
         }
-        if (mDecimal != null) {
-            mDecimal.setTextColor(mTextColor);
-        }
-        if (mDecimalSeperator != null) {
-            mDecimalSeperator.setTextColor(mTextColor);
-        }
-        if (mMinusLabel != null) {
-            mMinusLabel.setTextColor(mTextColor);
-        }
     }
 
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
 
-        mNumber = (ZeroTopPaddingTextView) findViewById(R.id.number);
-        mDecimal = (ZeroTopPaddingTextView) findViewById(R.id.decimal);
-        mDecimalSeperator = (ZeroTopPaddingTextView) findViewById(R.id.decimal_separator);
-        mMinusLabel = (ZeroTopPaddingTextView) findViewById(R.id.minus_label);
+        mNumber = (TextView) findViewById(R.id.number);
         if (mNumber != null) {
             mOriginalNumberTypeface = mNumber.getTypeface();
         }
         // Set the lowest time unit with thin font
         if (mNumber != null) {
             mNumber.setTypeface(mAndroidClockMonoThin);
-            mNumber.updatePadding();
-        }
-        if (mDecimal != null) {
-            mDecimal.setTypeface(mAndroidClockMonoThin);
-            mDecimal.updatePadding();
         }
 
         restyleViews();
@@ -116,7 +97,6 @@ public class T9View extends LinearLayout {
                 mNumber.setText("-");
                 mNumber.setTypeface(mAndroidClockMonoThin);
                 mNumber.setEnabled(false);
-                mNumber.updatePadding();
                 mNumber.setVisibility(View.VISIBLE);
             } else {
 
@@ -124,7 +104,6 @@ public class T9View extends LinearLayout {
                 mNumber.setText(text);
                 mNumber.setTypeface(mOriginalNumberTypeface);
                 mNumber.setEnabled(true);
-                mNumber.updatePadding();
                 mNumber.setVisibility(View.VISIBLE);
             }
         }
