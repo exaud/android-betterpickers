@@ -115,7 +115,7 @@ public class T9PickerDialogFragment extends DialogFragment {
         });
         mPicker = (T9Picker) v.findViewById(R.id.t9_picker);
         mPicker.setSetButton(mSet);
-        mSet.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener setClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String text = mPicker.getEnteredText();
@@ -140,7 +140,8 @@ public class T9PickerDialogFragment extends DialogFragment {
                 }
                 dismiss();
             }
-        });
+        };
+        mSet.setOnClickListener(setClickListener);
 
         mDividerOne = v.findViewById(R.id.divider_1);
         mDividerTwo = v.findViewById(R.id.divider_2);
@@ -155,6 +156,8 @@ public class T9PickerDialogFragment extends DialogFragment {
 
         mPicker.setLabelText(mLabelText);
         mPicker.setText();
+        mPicker.setSetClickListener(setClickListener);
+
         return v;
     }
 

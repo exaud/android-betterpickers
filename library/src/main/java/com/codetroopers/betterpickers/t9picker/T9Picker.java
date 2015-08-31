@@ -53,6 +53,8 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
     private int mCurrentKey;
     private long mClickedTimestamp;
 
+    private OnClickListener mSetClickListener = null;
+
     /**
      * Instantiates a T9Picker object
      *
@@ -362,7 +364,9 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
      */
     private void onRightClicked() {
         if (mInputPointer != -1) {
-            // TODO
+            if (mSetClickListener != null) {
+                mSetClickListener.onClick(null);
+            }
         }
     }
 
@@ -442,6 +446,10 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
 
     public void setText() {
         updateKeypad();
+    }
+
+    public void setSetClickListener(OnClickListener setClickListener) {
+        mSetClickListener = setClickListener;
     }
 
     private static class SavedState extends BaseSavedState {
