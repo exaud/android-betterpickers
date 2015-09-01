@@ -39,6 +39,11 @@
         <item name="android:textAllCaps">true</item>
         <item name="android:fontFamily">sans-serif-light</item>
     </style>
+    <style name="t9_dialpad">
+        <item name="android:textSize">@dimen/dialpad_font_size</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
     <style name="dialpad_text" parent="dialpad">
         <item name="android:textSize">@dimen/dialpad_font_size_ampm</item>
     </style>

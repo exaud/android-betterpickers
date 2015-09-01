@@ -89,9 +89,9 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
         mClickedTimestamp = System.currentTimeMillis();
         mKeys = new ArrayList<>();
         mKeys.add(" ");
-        mKeys.add(".,?");mKeys.add("ABC");mKeys.add("DEF");
-        mKeys.add("GHI");mKeys.add("JKL");mKeys.add("MNO");
-        mKeys.add("PQRS");mKeys.add("TUV");mKeys.add("WXYZ");
+        mKeys.add(".,?");mKeys.add("abc");mKeys.add("def");
+        mKeys.add("ghi");mKeys.add("jkl");mKeys.add("mno");
+        mKeys.add("pqrs");mKeys.add("tuv");mKeys.add("wxyz");
     }
 
     protected int getLayoutId() {
