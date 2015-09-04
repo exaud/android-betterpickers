@@ -17,8 +17,7 @@ import java.util.Vector;
 
 /**
  * Dialog to set alarm time.
- */
-public class DatePickerDialogFragment extends DialogFragment {
+ */public class DatePickerDialogFragment extends DialogFragment {
 
     private static final String REFERENCE_KEY = "DatePickerDialogFragment_ReferenceKey";
     private static final String THEME_RES_ID_KEY = "DatePickerDialogFragment_ThemeResIdKey";
@@ -53,7 +52,7 @@ public class DatePickerDialogFragment extends DialogFragment {
      * @return a Picker!
      */
     public static DatePickerDialogFragment newInstance(int reference, int themeResId, Integer monthOfYear,
-            Integer dayOfMonth, Integer year) {
+                                                       Integer dayOfMonth, Integer year) {
         final DatePickerDialogFragment frag = new DatePickerDialogFragment();
         Bundle args = new Bundle();
         args.putInt(REFERENCE_KEY, reference);
@@ -121,7 +120,7 @@ public class DatePickerDialogFragment extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.date_picker_dialog, null);
         mSet = (Button) v.findViewById(R.id.set_button);
@@ -135,7 +134,8 @@ public class DatePickerDialogFragment extends DialogFragment {
         mPicker = (DatePicker) v.findViewById(R.id.date_picker);
         mPicker.setSetButton(mSet);
         mPicker.setDate(mYear, mMonthOfYear, mDayOfMonth);
-        mSet.setOnClickListener(new View.OnClickListener() {
+
+        View.OnClickListener setClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 for (DatePickerDialogHandler handler : mDatePickerDialogHandlers) {
@@ -157,7 +157,8 @@ public class DatePickerDialogFragment extends DialogFragment {
                 }
                 dismiss();
             }
-        });
+        };
+        mSet.setOnClickListener(setClickListener);
 
         mDividerOne = v.findViewById(R.id.divider_1);
         mDividerTwo = v.findViewById(R.id.divider_2);
@@ -170,6 +171,7 @@ public class DatePickerDialogFragment extends DialogFragment {
         mPicker.setTheme(mTheme);
         getDialog().getWindow().setBackgroundDrawableResource(mDialogBackgroundResId);
 
+        mPicker.setSetClickListener(setClickListener);
         return v;
     }
 
