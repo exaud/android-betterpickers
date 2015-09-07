@@ -17,7 +17,8 @@ import java.util.Vector;
 
 /**
  * Dialog to set alarm time.
- */public class DatePickerDialogFragment extends DialogFragment {
+ */
+public class DatePickerDialogFragment extends DialogFragment {
 
     private static final String REFERENCE_KEY = "DatePickerDialogFragment_ReferenceKey";
     private static final String THEME_RES_ID_KEY = "DatePickerDialogFragment_ThemeResIdKey";
@@ -52,7 +53,7 @@ import java.util.Vector;
      * @return a Picker!
      */
     public static DatePickerDialogFragment newInstance(int reference, int themeResId, Integer monthOfYear,
-                                                       Integer dayOfMonth, Integer year) {
+            Integer dayOfMonth, Integer year) {
         final DatePickerDialogFragment frag = new DatePickerDialogFragment();
         Bundle args = new Bundle();
         args.putInt(REFERENCE_KEY, reference);
@@ -120,7 +121,7 @@ import java.util.Vector;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+            Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.date_picker_dialog, null);
         mSet = (Button) v.findViewById(R.id.set_button);
@@ -134,7 +135,6 @@ import java.util.Vector;
         mPicker = (DatePicker) v.findViewById(R.id.date_picker);
         mPicker.setSetButton(mSet);
         mPicker.setDate(mYear, mMonthOfYear, mDayOfMonth);
-
         View.OnClickListener setClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -170,8 +170,8 @@ import java.util.Vector;
         mCancel.setBackgroundResource(mButtonBackgroundResId);
         mPicker.setTheme(mTheme);
         getDialog().getWindow().setBackgroundDrawableResource(mDialogBackgroundResId);
-
         mPicker.setSetClickListener(setClickListener);
+
         return v;
     }
 

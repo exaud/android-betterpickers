@@ -28,7 +28,6 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 
 
-
 public class DatePicker extends LinearLayout implements Button.OnClickListener,
         Button.OnLongClickListener {
 
@@ -75,6 +74,7 @@ public class DatePicker extends LinearLayout implements Button.OnClickListener,
     private int mTheme = -1;
 
     private OnClickListener mSetClickListener = null;
+
     /**
      * Instantiates a DatePicker object
      *
@@ -181,7 +181,7 @@ public class DatePicker extends LinearLayout implements Button.OnClickListener,
             mDelete.setImageDrawable(getResources().getDrawable(mDeleteDrawableSrcResId));
         }
         if (mYearLeft != null) {
-//            mYearLeft.setTextColor(mTextColor);
+            mYearLeft.setTextColor(mTextColor);
             mYearLeft.setBackgroundResource(mKeyBackgroundResId);
         }
         if (mYearRight != null) {
@@ -224,6 +224,7 @@ public class DatePicker extends LinearLayout implements Button.OnClickListener,
         mDelete = (ImageButton) findViewById(R.id.delete);
         mDelete.setOnClickListener(this);
         mDelete.setOnLongClickListener(this);
+
         // TODO: check click listener
         setLeftRightEnabled();
         updateDate();
@@ -247,11 +248,10 @@ public class DatePicker extends LinearLayout implements Button.OnClickListener,
          * @return an inflated View representing the keyboard for this position
          */
         public Object instantiateItem(ViewGroup collection, int position) {
-            View view = null;
+            View view;
             Resources res = mContext.getResources();
             if (mDateFormatOrder[position] == 'M') {
                 // Months
-
                 sMonthKeyboardPosition = position;
                 view = mInflater.inflate(R.layout.keyboard_text_with_header, null);
                 View v1 = view.findViewById(R.id.first);
@@ -288,7 +288,6 @@ public class DatePicker extends LinearLayout implements Button.OnClickListener,
                 }
             } else if (mDateFormatOrder[position] == 'd') {
                 // Date
-
                 sDateKeyboardPosition = position;
                 view = mInflater.inflate(R.layout.keyboard_right_drawable_with_header, null);
                 View v1 = view.findViewById(R.id.first);
@@ -326,11 +325,10 @@ public class DatePicker extends LinearLayout implements Button.OnClickListener,
                     mDateNumbers[i].setTag(R.id.numbers_key, i);
                 }
 
-//                mDateRight.setImageDrawable(res.getDrawable(mCheckDrawableSrcResId));
+                mDateRight.setImageDrawable(res.getDrawable(mCheckDrawableSrcResId));
                 mDateRight.setBackgroundResource(mKeyBackgroundResId);
                 mDateRight.setOnClickListener(DatePicker.this);
             } else if (mDateFormatOrder[position] == 'y') {
-
                 // Year
                 sYearKeyboardPosition = position;
                 view = mInflater.inflate(R.layout.keyboard_with_header, null);
