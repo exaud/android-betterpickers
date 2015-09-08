@@ -73,6 +73,8 @@ public class DatePicker extends LinearLayout implements Button.OnClickListener,
     private int mTheme = -1;
 
     private OnClickListener mSetClickListener = null;
+    private long minDate = 0;
+    private long maxDate = 0;
 
     /**
      * Instantiates a DatePicker object
@@ -726,19 +728,50 @@ public class DatePicker extends LinearLayout implements Button.OnClickListener,
         return getDayOfMonth() > 0;
     }
 
-    private boolean canGoToEnd() {
-        return getYear() > 0;
+    private boolean canFinishInput() {
+        boolean result = false;
+
+        if (minDate > 0 || maxDate > 0) {
+            final Calendar currDate = new GregorianCalendar();
+            currDate.set(Calendar.YEAR, getYear());
+            currDate.set(Calendar.MONTH, getMonthOfYear() + 1);
+            currDate.set(Calendar.DAY_OF_MONTH, getDayOfMonth());
+            currDate.set(Calendar.HOUR_OF_DAY, 0);
+            currDate.set(Calendar.MINUTE, 0);
+            currDate.set(Calendar.SECOND, 0);
+            currDate.set(Calendar.MILLISECOND, 0);
+
+            if (minDate > 0 && maxDate > 0) {
+                result = currDate.getTimeInMillis() > minDate && currDate.getTimeInMillis() < maxDate;
+            } else if (minDate > 0) {
+                result =  currDate.getTimeInMillis() > minDate;
+            } else {
+                result =  currDate.getTimeInMillis() < maxDate;
+            }
+
+        } else {
+            result = getDayOfMonth() > 0 && getYear() > 0 && getMonthOfYear() >= 0;
+        }
+
+        return result;
     }
 
     private void updateLeftRightButtons() {
         if (mDateRight != null) {
-            mDateRight.setEnabled(canGoToEnd());
+            mDateRight.setEnabled(canFinishInput());
             mDateRight.setOnClickListener(checkOnClickListener);
         }
         if (mYearRight != null) {
-            mYearRight.setEnabled(canGoToEnd());
+            mYearRight.setEnabled(canFinishInput());
             mYearRight.setOnClickListener(checkOnClickListener);
         }
+    }
+
+    public void setMinDate(long minDate) {
+        this.minDate = minDate;
+    }
+    public void setMaxDate(long maxDate) {
+        this.maxDate = maxDate;
     }
 
     /**
