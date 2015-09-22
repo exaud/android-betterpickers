@@ -27,6 +27,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
+
 public class DatePicker extends LinearLayout implements Button.OnClickListener,
         Button.OnLongClickListener {
 
@@ -94,7 +95,6 @@ public class DatePicker extends LinearLayout implements Button.OnClickListener,
     public DatePicker(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
-        // to force YYYYMMDD date format "yMd".toCharArray();
         mDateFormatOrder = DateFormat.getDateFormatOrder(mContext);
         mMonthAbbreviations = makeLocalizedMonthAbbreviations();
         LayoutInflater layoutInflater =
@@ -223,7 +223,6 @@ public class DatePicker extends LinearLayout implements Button.OnClickListener,
         mDelete.setOnClickListener(this);
         mDelete.setOnLongClickListener(this);
 
-        // TODO: check click listener
         setLeftRightEnabled();
         updateDate();
         updateKeypad();
@@ -322,12 +321,12 @@ public class DatePicker extends LinearLayout implements Button.OnClickListener,
                     mDateNumbers[i].setTag(R.id.date_keyboard, KEYBOARD_DATE);
                     mDateNumbers[i].setTag(R.id.numbers_key, i);
                 }
+
                 // show check mark to finish input
                 if (position == 2) {
                     mDateRight.setImageDrawable(res.getDrawable(mCheckDrawableSrcResId));
                     mDateRight.setBackgroundResource(mKeyBackgroundResId);
                 }
-
             } else if (mDateFormatOrder[position] == 'y') {
                 // Year
                 sYearKeyboardPosition = position;

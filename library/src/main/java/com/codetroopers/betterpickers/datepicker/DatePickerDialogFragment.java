@@ -59,7 +59,7 @@ public class DatePickerDialogFragment extends DialogFragment {
      * @return a Picker!
      */
     public static DatePickerDialogFragment newInstance(int reference, int themeResId, Integer monthOfYear,
-                                                       Integer dayOfMonth, Integer year, long minDate, long maxDate) {
+            Integer dayOfMonth, Integer year, long minDate, long maxDate) {
         final DatePickerDialogFragment frag = new DatePickerDialogFragment();
         Bundle args = new Bundle();
         args.putInt(REFERENCE_KEY, reference);
