@@ -7,6 +7,8 @@ import android.util.Log;
 
 import com.codetroopers.betterpickers.datepicker.DatePickerDialogFragment.DatePickerDialogHandler;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Vector;
 
 /**
@@ -23,6 +25,8 @@ public class DatePickerBuilder {
     private int mReference = -1;
     private Vector<DatePickerDialogHandler> mDatePickerDialogHandlers = new Vector<DatePickerDialogHandler>();
 
+    private long minDate = 0;
+    private long maxDate = 0;
     /**
      * Attach a FragmentManager. This is required for creation of the Fragment.
      *
@@ -105,6 +109,31 @@ public class DatePickerBuilder {
         return this;
     }
 
+    public DatePickerBuilder setMinAceptedDate(int year, int monthOfYear, int dayOfMonth) {
+        this.minDate = parseDate(year, monthOfYear, dayOfMonth);
+        return this;
+    }
+
+    public DatePickerBuilder setMaxAceptedDate(int year, int monthOfYear, int dayOfMonth) {
+        this.maxDate = parseDate(year, monthOfYear, dayOfMonth);
+        return this;
+    }
+
+    private long parseDate(int year, int monthOfYear, int dayOfMonth) {
+        long result = 0;
+        final Calendar currDate = new GregorianCalendar();
+        currDate.set(Calendar.YEAR, year);
+        currDate.set(Calendar.MONTH, monthOfYear);
+        currDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        currDate.set(Calendar.HOUR_OF_DAY, 0);
+        currDate.set(Calendar.MINUTE, 0);
+        currDate.set(Calendar.SECOND, 0);
+        currDate.set(Calendar.MILLISECOND, 0);
+        result = currDate.getTimeInMillis();
+
+        return result;
+    }
+
     /**
      * Attach universal objects as additional handlers for notification when the Picker is set. For most use cases, this
      * method is not necessary as attachment to an Activity or Fragment is done automatically.  If, however, you would
@@ -145,7 +174,7 @@ public class DatePickerBuilder {
         ft.addToBackStack(null);
 
         final DatePickerDialogFragment fragment = DatePickerDialogFragment
-                .newInstance(mReference, styleResId, monthOfYear, dayOfMonth, year);
+                .newInstance(mReference, styleResId, monthOfYear, dayOfMonth, year, minDate, maxDate);
         if (targetFragment != null) {
             fragment.setTargetFragment(targetFragment, 0);
         }

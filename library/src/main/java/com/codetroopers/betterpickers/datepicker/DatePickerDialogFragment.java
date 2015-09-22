@@ -25,6 +25,8 @@ public class DatePickerDialogFragment extends DialogFragment {
     private static final String MONTH_KEY = "DatePickerDialogFragment_MonthKey";
     private static final String DAY_KEY = "DatePickerDialogFragment_DayKey";
     private static final String YEAR_KEY = "DatePickerDialogFragment_YearKey";
+    private static final String MIN_DATE_KEY = "DatePickerDialogFragment_minDateKey";
+    private static final String MAX_DATE_KEY = "DatePickerDialogFragment_maxDateKey";
 
     private Button mSet, mCancel;
     private DatePicker mPicker;
@@ -32,6 +34,8 @@ public class DatePickerDialogFragment extends DialogFragment {
     private int mMonthOfYear = -1;
     private int mDayOfMonth = 0;
     private int mYear = 0;
+    private long mMinDate = 0;
+    private long mMaxDate = 0;
 
     private int mReference = -1;
     private int mTheme = -1;
@@ -50,10 +54,12 @@ public class DatePickerDialogFragment extends DialogFragment {
      * @param monthOfYear (optional) zero-indexed month of year to pre-set
      * @param dayOfMonth (optional) day of month to pre-set
      * @param year (optional) year to pre-set
+     * @param minDate
+     * @param maxDate
      * @return a Picker!
      */
     public static DatePickerDialogFragment newInstance(int reference, int themeResId, Integer monthOfYear,
-            Integer dayOfMonth, Integer year) {
+            Integer dayOfMonth, Integer year, long minDate, long maxDate) {
         final DatePickerDialogFragment frag = new DatePickerDialogFragment();
         Bundle args = new Bundle();
         args.putInt(REFERENCE_KEY, reference);
@@ -67,6 +73,13 @@ public class DatePickerDialogFragment extends DialogFragment {
         if (year != null) {
             args.putInt(YEAR_KEY, year);
         }
+        if (minDate > 0) {
+            args.putLong(MIN_DATE_KEY, minDate);
+        }
+        if (maxDate > 0) {
+            args.putLong(MAX_DATE_KEY, maxDate);
+        }
+
         frag.setArguments(args);
         return frag;
     }
@@ -95,6 +108,12 @@ public class DatePickerDialogFragment extends DialogFragment {
         }
         if (args != null && args.containsKey(YEAR_KEY)) {
             mYear = args.getInt(YEAR_KEY);
+        }
+        if (args != null && args.containsKey(MIN_DATE_KEY)) {
+            mMinDate = args.getLong(MIN_DATE_KEY);
+        }
+        if (args != null && args.containsKey(MAX_DATE_KEY)) {
+            mMaxDate = args.getLong(MAX_DATE_KEY);
         }
 
         setStyle(DialogFragment.STYLE_NO_TITLE, 0);
@@ -135,7 +154,9 @@ public class DatePickerDialogFragment extends DialogFragment {
         mPicker = (DatePicker) v.findViewById(R.id.date_picker);
         mPicker.setSetButton(mSet);
         mPicker.setDate(mYear, mMonthOfYear, mDayOfMonth);
-        mSet.setOnClickListener(new View.OnClickListener() {
+        mPicker.setMinDate(mMinDate);
+        mPicker.setMaxDate(mMaxDate);
+        View.OnClickListener setClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 for (DatePickerDialogHandler handler : mDatePickerDialogHandlers) {
@@ -157,7 +178,8 @@ public class DatePickerDialogFragment extends DialogFragment {
                 }
                 dismiss();
             }
-        });
+        };
+        mSet.setOnClickListener(setClickListener);
 
         mDividerOne = v.findViewById(R.id.divider_1);
         mDividerTwo = v.findViewById(R.id.divider_2);
@@ -169,6 +191,7 @@ public class DatePickerDialogFragment extends DialogFragment {
         mCancel.setBackgroundResource(mButtonBackgroundResId);
         mPicker.setTheme(mTheme);
         getDialog().getWindow().setBackgroundDrawableResource(mDialogBackgroundResId);
+        mPicker.setSetClickListener(setClickListener);
 
         return v;
     }

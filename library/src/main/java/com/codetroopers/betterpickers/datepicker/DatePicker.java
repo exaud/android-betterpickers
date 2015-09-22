@@ -42,8 +42,8 @@ public class DatePicker extends LinearLayout implements Button.OnClickListener,
     protected final Button mDateNumbers[] = new Button[10];
     protected final Button mYearNumbers[] = new Button[10];
     protected Button mDateLeft;
-    protected Button mYearLeft, mYearRight;
-    protected ImageButton mDateRight;
+    protected Button mYearLeft;
+    protected ImageButton mDateRight, mYearRight;
     protected UnderlinePageIndicatorPicker mKeyboardIndicator;
     protected ViewPager mKeyboardPager;
     protected KeyboardPagerAdapter mKeyboardPagerAdapter;
@@ -72,6 +72,10 @@ public class DatePicker extends LinearLayout implements Button.OnClickListener,
     private int mCheckDrawableSrcResId;
     private int mDeleteDrawableSrcResId;
     private int mTheme = -1;
+
+    private OnClickListener mSetClickListener = null;
+    private long minDate = 0;
+    private long maxDate = 0;
 
     /**
      * Instantiates a DatePicker object
@@ -171,7 +175,6 @@ public class DatePicker extends LinearLayout implements Button.OnClickListener,
         }
         if (mDateRight != null) {
             mDateRight.setBackgroundResource(mKeyBackgroundResId);
-            mDateRight.setImageDrawable(getResources().getDrawable(mCheckDrawableSrcResId));
         }
         if (mDelete != null) {
             mDelete.setBackgroundResource(mButtonBackgroundResId);
@@ -182,7 +185,6 @@ public class DatePicker extends LinearLayout implements Button.OnClickListener,
             mYearLeft.setBackgroundResource(mKeyBackgroundResId);
         }
         if (mYearRight != null) {
-            mYearRight.setTextColor(mTextColor);
             mYearRight.setBackgroundResource(mKeyBackgroundResId);
         }
         if (mEnteredDate != null) {
@@ -320,13 +322,15 @@ public class DatePicker extends LinearLayout implements Button.OnClickListener,
                     mDateNumbers[i].setTag(R.id.numbers_key, i);
                 }
 
-                mDateRight.setImageDrawable(res.getDrawable(mCheckDrawableSrcResId));
-                mDateRight.setBackgroundResource(mKeyBackgroundResId);
-                mDateRight.setOnClickListener(DatePicker.this);
+                // show check mark to finish input
+                if (position == 2) {
+                    mDateRight.setImageDrawable(res.getDrawable(mCheckDrawableSrcResId));
+                    mDateRight.setBackgroundResource(mKeyBackgroundResId);
+                }
             } else if (mDateFormatOrder[position] == 'y') {
                 // Year
                 sYearKeyboardPosition = position;
-                view = mInflater.inflate(R.layout.keyboard_with_header, null);
+                view = mInflater.inflate(R.layout.keyboard_right_drawable_with_header, null);
                 View v1 = view.findViewById(R.id.first);
                 View v2 = view.findViewById(R.id.second);
                 View v3 = view.findViewById(R.id.third);
@@ -351,9 +355,13 @@ public class DatePicker extends LinearLayout implements Button.OnClickListener,
                 mYearLeft.setTextColor(mTextColor);
                 mYearLeft.setBackgroundResource(mKeyBackgroundResId);
                 mYearNumbers[0] = (Button) v4.findViewById(R.id.key_middle);
-                mYearRight = (Button) v4.findViewById(R.id.key_right);
-                mYearRight.setTextColor(mTextColor);
-                mYearRight.setBackgroundResource(mKeyBackgroundResId);
+                mYearRight = (ImageButton) v4.findViewById(R.id.key_right);
+
+                // show check mark to finish input
+                if (position == 2) {
+                    mYearRight.setImageDrawable(res.getDrawable(mCheckDrawableSrcResId));
+                    mYearRight.setBackgroundResource(mKeyBackgroundResId);
+                }
 
                 for (int i = 0; i < 10; i++) {
                     mYearNumbers[i].setOnClickListener(DatePicker.this);
@@ -399,6 +407,14 @@ public class DatePicker extends LinearLayout implements Button.OnClickListener,
             mDelete.setEnabled(enabled);
         }
     }
+
+    Button.OnClickListener checkOnClickListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+            onYearRightClicked();
+        }
+    };
 
     @Override
     public void onClick(View v) {
@@ -459,6 +475,8 @@ public class DatePicker extends LinearLayout implements Button.OnClickListener,
         } else if (v.getTag(R.id.date_keyboard).equals(KEYBOARD_YEAR)) {
             // A year number was pressed
             addClickedYearNumber((Integer) v.getTag(R.id.numbers_key));
+        } else if ( v == mYearRight) {
+            onYearRightClicked();
         }
         updateKeypad();
     }
@@ -566,6 +584,12 @@ public class DatePicker extends LinearLayout implements Button.OnClickListener,
     private void onDateRightClicked() {
         if (mKeyboardPager.getCurrentItem() < 2) {
             mKeyboardPager.setCurrentItem(mKeyboardPager.getCurrentItem() + 1, true);
+        }
+    }
+
+    private void onYearRightClicked() {
+        if (mSetClickListener != null) {
+            mSetClickListener.onClick(null);
         }
     }
 
@@ -703,10 +727,50 @@ public class DatePicker extends LinearLayout implements Button.OnClickListener,
         return getDayOfMonth() > 0;
     }
 
+    private boolean canFinishInput() {
+        boolean result = false;
+
+        if (minDate > 0 || maxDate > 0) {
+            final Calendar currDate = new GregorianCalendar();
+            currDate.set(Calendar.YEAR, getYear());
+            currDate.set(Calendar.MONTH, getMonthOfYear() + 1);
+            currDate.set(Calendar.DAY_OF_MONTH, getDayOfMonth());
+            currDate.set(Calendar.HOUR_OF_DAY, 0);
+            currDate.set(Calendar.MINUTE, 0);
+            currDate.set(Calendar.SECOND, 0);
+            currDate.set(Calendar.MILLISECOND, 0);
+
+            if (minDate > 0 && maxDate > 0) {
+                result = currDate.getTimeInMillis() > minDate && currDate.getTimeInMillis() < maxDate;
+            } else if (minDate > 0) {
+                result =  currDate.getTimeInMillis() > minDate;
+            } else {
+                result =  currDate.getTimeInMillis() < maxDate;
+            }
+
+        } else {
+            result = getDayOfMonth() > 0 && getYear() > 0 && getMonthOfYear() >= 0;
+        }
+
+        return result;
+    }
+
     private void updateLeftRightButtons() {
         if (mDateRight != null) {
-            mDateRight.setEnabled(canGoToYear());
+            mDateRight.setEnabled(canFinishInput());
+            mDateRight.setOnClickListener(checkOnClickListener);
         }
+        if (mYearRight != null) {
+            mYearRight.setEnabled(canFinishInput());
+            mYearRight.setOnClickListener(checkOnClickListener);
+        }
+    }
+
+    public void setMinDate(long minDate) {
+        this.minDate = minDate;
+    }
+    public void setMaxDate(long maxDate) {
+        this.maxDate = maxDate;
     }
 
     /**
@@ -873,6 +937,10 @@ public class DatePicker extends LinearLayout implements Button.OnClickListener,
         }
         mMonthInput = savedState.mMonthInput;
         updateKeypad();
+    }
+
+    public void setSetClickListener(OnClickListener setClickListener) {
+        mSetClickListener = setClickListener;
     }
 
     private static class SavedState extends BaseSavedState {
