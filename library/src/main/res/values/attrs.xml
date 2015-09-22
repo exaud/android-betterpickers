@@ -11,6 +11,7 @@
         <attr name="bpDividerColor" format="color"/>
         <attr name="bpKeyboardIndicatorColor" format="color"/>
         <attr name="bpDialogBackground" format="reference"/>
+        <attr name="bpShiftIcon" format="reference"/>
     </declare-styleable>
     <declare-styleable name="Switch">
 

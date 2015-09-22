@@ -48,10 +48,11 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
     private int mDeleteDrawableSrcResId;
     private int mTheme = -1;
 
-    private List<String> mKeys;
+    private List<String> mKeys, mLowerKeys, mCapitalKeys;
     private String mLastKey;
     private int mCurrentKey;
     private long mClickedTimestamp;
+    private boolean lowerKeys;
 
     private OnClickListener mSetClickListener = null;
 
@@ -84,14 +85,25 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
         mDeleteDrawableSrcResId = R.drawable.ic_backspace_dark;
         mDividerColor = getResources().getColor(R.color.default_divider_color_dark);
         mCheckDrawableSrcResId = R.drawable.ic_check_dark;
-        mShiftDrawableSrcResId = R.drawable.sym_keyboard_shift;
+        mShiftDrawableSrcResId = R.drawable.key_shift_dark;
 
         mClickedTimestamp = System.currentTimeMillis();
         mKeys = new ArrayList<>();
-        mKeys.add(" ");
-        mKeys.add(".,?");mKeys.add("abc");mKeys.add("def");
-        mKeys.add("ghi");mKeys.add("jkl");mKeys.add("mno");
-        mKeys.add("pqrs");mKeys.add("tuv");mKeys.add("wxyz");
+
+        mLowerKeys = new ArrayList<>();
+        mLowerKeys.add(" ");
+        mLowerKeys.add(".,?");mLowerKeys.add("abc");mLowerKeys.add("def");
+        mLowerKeys.add("ghi");mLowerKeys.add("jkl");mLowerKeys.add("mno");
+        mLowerKeys.add("pqrs");mLowerKeys.add("tuv");mLowerKeys.add("wxyz");
+
+        mCapitalKeys = new ArrayList<>();
+        mCapitalKeys.add(" ");
+        mCapitalKeys.add("-_!");mCapitalKeys.add("ABC");mCapitalKeys.add("DEF");
+        mCapitalKeys.add("GHI");mCapitalKeys.add("JKL");mCapitalKeys.add("MNO");
+        mCapitalKeys.add("PQRS");mCapitalKeys.add("TUV");mCapitalKeys.add("WXYZ");
+
+        mKeys.addAll(mLowerKeys);
+        lowerKeys = true;
     }
 
     protected int getLayoutId() {
@@ -118,6 +130,8 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
             mDividerColor = a.getColor(R.styleable.BetterPickersDialogFragment_bpDividerColor, mDividerColor);
             mDeleteDrawableSrcResId = a.getResourceId(R.styleable.BetterPickersDialogFragment_bpDeleteIcon,
                     mDeleteDrawableSrcResId);
+            mShiftDrawableSrcResId = a.getResourceId(R.styleable.BetterPickersDialogFragment_bpShiftIcon,
+                    mShiftDrawableSrcResId);
         }
 
         restyleViews();
@@ -239,7 +253,7 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
     protected void doOnClick(View v) {
         String val = (String) v.getTag(R.id.numbers_key);
         if (val != null) {
-            // A number was pressed
+            // A key was pressed
             addClickedText(val);
         } else if (v == mDelete) {
             if (mInputPointer != -1) {
@@ -355,14 +369,27 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
     }
 
     /**
-     * Clicking on the bottom left button will TODO.
+     * Clicking on the bottom left button will toggle capitalization.
      */
     private void onLeftClicked() {
-        // TODO
+        mKeys.clear();
+        if (lowerKeys) {
+            mKeys.addAll(mCapitalKeys);
+        } else {
+            mKeys.addAll(mLowerKeys);
+        }
+        for (int i = 0; i < 10; i++) {
+            mNumbers[i].setText(mKeys.get(i));
+            mNumbers[i].setTag(R.id.numbers_key, mKeys.get(i));
+        }
+        // change capitalization
+        lowerKeys = !lowerKeys;
+        // set button selected if not using lowerKeys
+        mLeft.setSelected(!lowerKeys);
     }
 
     /**
-     * Clicking on the bottom right button will TODO.
+     * Clicking on the bottom right button will accept text.
      */
     private void onRightClicked() {
         if (mInputPointer != -1) {
