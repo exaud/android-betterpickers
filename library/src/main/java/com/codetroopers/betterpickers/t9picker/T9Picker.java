@@ -113,6 +113,8 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
                     mKeyBackgroundResId);
             mButtonBackgroundResId = a.getResourceId(R.styleable.BetterPickersDialogFragment_bpButtonBackground,
                     mButtonBackgroundResId);
+            mCheckDrawableSrcResId = a.getResourceId(R.styleable.BetterPickersDialogFragment_bpCheckIcon,
+                    mCheckDrawableSrcResId);
             mDividerColor = a.getColor(R.styleable.BetterPickersDialogFragment_bpDividerColor, mDividerColor);
             mDeleteDrawableSrcResId = a.getResourceId(R.styleable.BetterPickersDialogFragment_bpDeleteIcon,
                     mDeleteDrawableSrcResId);
