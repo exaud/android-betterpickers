@@ -48,11 +48,15 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
     private int mDeleteDrawableSrcResId;
     private int mTheme = -1;
 
-    private List<String> mKeys, mLowerKeys, mCapitalKeys;
+    private List<String> mKeys, mLowerKeys, mCapitalKeys, mNumbersKeys;
     private String mLastKey;
     private int mCurrentKey;
     private long mClickedTimestamp;
-    private boolean lowerKeys;
+    private int mCurrentKeys;
+
+    private final int LOWER_KEYS = 1;
+    private final int CAPITAL_KEYS = 2;
+    private final int NUMBER_KEYS = 3;
 
     private OnClickListener mSetClickListener = null;
 
@@ -102,8 +106,14 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
         mCapitalKeys.add("GHI");mCapitalKeys.add("JKL");mCapitalKeys.add("MNO");
         mCapitalKeys.add("PQRS");mCapitalKeys.add("TUV");mCapitalKeys.add("WXYZ");
 
+        mNumbersKeys = new ArrayList<>();
+        mNumbersKeys.add("0");
+        mNumbersKeys.add("1");mNumbersKeys.add("2");mNumbersKeys.add("3");
+        mNumbersKeys.add("4");mNumbersKeys.add("5");mNumbersKeys.add("6");
+        mNumbersKeys.add("7");mNumbersKeys.add("8");mNumbersKeys.add("9");
+
         mKeys.addAll(mLowerKeys);
-        lowerKeys = true;
+        mCurrentKeys = LOWER_KEYS;
     }
 
     protected int getLayoutId() {
@@ -341,7 +351,7 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
         long now = System.currentTimeMillis();
         boolean nextLetter = false;
 
-        if (now - mClickedTimestamp > 1500 || mLastKey != val) {
+        if (NUMBER_KEYS == mCurrentKeys || now - mClickedTimestamp > 1500 || mLastKey != val) {
             nextLetter = true;
             mCurrentKey = 0;
         }
@@ -372,19 +382,27 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
      * Clicking on the bottom left button will toggle capitalization.
      */
     private void onLeftClicked() {
+        boolean lowerKeys = false;
+
         mKeys.clear();
-        if (lowerKeys) {
+        if (LOWER_KEYS == mCurrentKeys) {
             mKeys.addAll(mCapitalKeys);
-        } else {
+            mCurrentKeys = CAPITAL_KEYS;
+            lowerKeys = false;
+        } else if (CAPITAL_KEYS == mCurrentKeys) {
+            mKeys.addAll(mNumbersKeys);
+            mCurrentKeys = NUMBER_KEYS;
+            lowerKeys = true;
+        } else if (NUMBER_KEYS == mCurrentKeys) {
             mKeys.addAll(mLowerKeys);
+            mCurrentKeys = LOWER_KEYS;
+            lowerKeys = true;
         }
         for (int i = 0; i < 10; i++) {
             mNumbers[i].setText(mKeys.get(i));
             mNumbers[i].setTag(R.id.numbers_key, mKeys.get(i));
         }
-        // change capitalization
-        lowerKeys = !lowerKeys;
-        // set button selected if not using lowerKeys
+        // set button selected
         mLeft.setSelected(!lowerKeys);
     }
 
