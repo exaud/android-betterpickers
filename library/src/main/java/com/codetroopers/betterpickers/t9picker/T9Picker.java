@@ -25,7 +25,7 @@ import java.util.List;
 public class T9Picker extends LinearLayout implements Button.OnClickListener,
         Button.OnLongClickListener {
 
-    protected int mInputSize = 20;
+    protected int mInputSize = 160;
     protected final Button mNumbers[] = new Button[10];
     protected String mInput[] = new String[mInputSize];
     protected int mInputPointer = -1;
