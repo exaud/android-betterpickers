@@ -304,7 +304,7 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
         mLabelText = labelText;
 
         if (labelText != null && labelText.isEmpty()) {
-            mInputPointer = 0;
+            mInputPointer = -1;
         }
         for (int i = 0; i < labelText.length(); i++) {
             mInput[i] = "" + labelText.charAt(i);
