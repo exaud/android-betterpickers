@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
@@ -497,6 +498,14 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
 
     public void setSetClickListener(OnClickListener setClickListener) {
         mSetClickListener = setClickListener;
+    }
+
+    public void addTextWatcher(TextWatcher textWatcher) {
+        mEnteredText.addTextWatcher(textWatcher);
+    }
+
+    public void removeTextWatcher(TextWatcher textWatcher) {
+        mEnteredText.removeTextWatcher(textWatcher);
     }
 
     private static class SavedState extends BaseSavedState {

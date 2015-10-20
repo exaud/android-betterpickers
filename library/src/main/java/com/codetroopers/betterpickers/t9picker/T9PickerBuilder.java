@@ -3,6 +3,7 @@ package com.codetroopers.betterpickers.t9picker;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextWatcher;
 import android.util.Log;
 
 import java.util.Vector;
@@ -18,6 +19,7 @@ public class T9PickerBuilder {
     private String labelText;
     private int mReference;
     private Vector<T9PickerDialogFragment.T9PickerDialogHandler> mT9PickerDialogHandlers = new Vector<T9PickerDialogFragment.T9PickerDialogHandler>();
+    private TextWatcher mTextWatcher;
 
     /**
      * Attach a FragmentManager. This is required for creation of the Fragment.
@@ -101,6 +103,11 @@ public class T9PickerBuilder {
         return this;
     }
 
+    public com.codetroopers.betterpickers.t9picker.T9PickerBuilder addTextWatcher(TextWatcher textWatcher) {
+        this.mTextWatcher = textWatcher;
+        return this;
+    }
+
     /**
      * Instantiate and show the Picker
      */
@@ -117,7 +124,7 @@ public class T9PickerBuilder {
         ft.addToBackStack(null);
 
         final T9PickerDialogFragment fragment = T9PickerDialogFragment
-                .newInstance(mReference, styleResId, labelText);
+                .newInstance(mReference, styleResId, labelText, mTextWatcher);
         if (targetFragment != null) {
             fragment.setTargetFragment(targetFragment, 0);
         }
