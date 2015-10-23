@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -94,5 +95,13 @@ public class T9View extends LinearLayout {
                 mText.setEnabled(true);
             }
         }
+    }
+
+    public void addTextWatcher(TextWatcher textWatcher) {
+        mText.addTextChangedListener(textWatcher);
+    }
+
+    public void removeTextWatcher(TextWatcher textWatcher) {
+        mText.removeTextChangedListener(textWatcher);
     }
 }

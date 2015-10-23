@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,17 +42,20 @@ public class T9PickerDialogFragment extends DialogFragment {
 
     private Vector<T9PickerDialogHandler> mT9PickerDialogHandlers = new Vector<T9PickerDialogHandler>();
 
+    private TextWatcher mTextWatcher;
+
     /**
      * Create an instance of the Picker (used internally)
      *
      * @param reference an (optional) user-defined reference, helpful when tracking multiple Pickers
      * @param themeResId the style resource ID for theming
      * @param labelText (optional) text to add as a label
+     * @param textWatcher (optional) TextWatcher to be used on calling method
      * @param roundWearableMargin
      * @return a Picker!
      */
     public static com.codetroopers.betterpickers.t9picker.T9PickerDialogFragment newInstance(int reference, int themeResId,
-                                                                                             String labelText, int roundWearableMargin) {
+                                                         String labelText, TextWatcher textWatcher, int roundWearableMargin) {
         final com.codetroopers.betterpickers.t9picker.T9PickerDialogFragment frag = new com.codetroopers.betterpickers.t9picker.T9PickerDialogFragment();
         Bundle args = new Bundle();
         args.putInt(REFERENCE_KEY, reference);
@@ -61,6 +65,8 @@ public class T9PickerDialogFragment extends DialogFragment {
             args.putString(LABEL_TEXT_KEY, labelText);
         }
         frag.setArguments(args);
+        frag.addTextWatcher(textWatcher);
+
         return frag;
     }
 
@@ -166,6 +172,9 @@ public class T9PickerDialogFragment extends DialogFragment {
         mPicker.setLabelText(mLabelText);
         mPicker.setText();
         mPicker.setSetClickListener(setClickListener);
+        if (mTextWatcher != null) {
+            mPicker.addTextWatcher(mTextWatcher);
+        }
 
         return v;
     }
@@ -185,5 +194,18 @@ public class T9PickerDialogFragment extends DialogFragment {
      */
     public void setT9PickerDialogHandlers(Vector<T9PickerDialogHandler> handlers) {
         mT9PickerDialogHandlers = handlers;
+    }
+
+    private void addTextWatcher(TextWatcher textWatcher) {
+        mTextWatcher = textWatcher;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (mTextWatcher != null && mPicker != null) {
+            mPicker.removeTextWatcher(mTextWatcher);
+        }
     }
 }

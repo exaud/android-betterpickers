@@ -35,7 +35,7 @@ public class SampleT9Default extends BaseSampleActivity
                 T9PickerBuilder npb = new T9PickerBuilder()
                         .setFragmentManager(getSupportFragmentManager())
                         .setStyleResId(R.style.BetterPickersDialogFragment);
-                npb.show();
+                npb.show(0);
             }
         });
     }
