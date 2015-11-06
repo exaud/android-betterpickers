@@ -225,5 +225,11 @@
         <item>9</item>
     </string-array>
 
+    <string-array name="keys_extra_lower">
+    </string-array>
+
+    <string-array name="keys_extra_capital">
+    </string-array>
+
 </resources>
 

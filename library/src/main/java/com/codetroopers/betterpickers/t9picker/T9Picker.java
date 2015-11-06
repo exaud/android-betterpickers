@@ -5,6 +5,7 @@ import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -53,6 +54,7 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
     private int mTheme = -1;
 
     private List<String> mKeys, mLowerKeys, mCapitalKeys, mNumbersKeys;
+    private List<String> mLabelsKeys, mExtraLowerKeys, mExtraCapitalKeys;
     private String mLastKey;
     private int mCurrentKey;
     private long mClickedTimestamp;
@@ -99,13 +101,24 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
         mKeys = new ArrayList<>();
 
         mLowerKeys = buildKeys(R.array.keys_lower);
+        mExtraLowerKeys = buildKeys(R.array.keys_extra_lower);
 
         mCapitalKeys = buildKeys(R.array.keys_capital);
+        mExtraCapitalKeys = buildKeys(R.array.keys_extra_capital);
 
         mNumbersKeys = buildKeys(R.array.keys_numbers);
 
         mKeys.addAll(mLowerKeys);
         mCurrentKeys = LOWER_KEYS;
+        mLabelsKeys = new ArrayList<>(mKeys);
+        if (mExtraLowerKeys != null) {
+            for (int position = 0; position < mKeys.size(); position++) {
+                String extraKeys = mExtraLowerKeys.get(position);
+                if (!TextUtils.isEmpty(extraKeys)) {
+                    mKeys.set(position, mKeys.get(position) + extraKeys);
+                }
+            }
+        }
     }
 
     protected int getLayoutId() {
@@ -205,7 +218,7 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
 
         for (int i = 0; i < 10; i++) {
             mNumbers[i].setOnClickListener(this);
-            mNumbers[i].setText(mKeys.get(i));
+            mNumbers[i].setText(mLabelsKeys.get(i));
             mNumbers[i].setTag(R.id.numbers_key, mKeys.get(i));
         }
         updateText();
@@ -376,21 +389,41 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
         boolean lowerKeys = false;
 
         mKeys.clear();
+        mLabelsKeys.clear();
         if (LOWER_KEYS == mCurrentKeys) {
             mKeys.addAll(mCapitalKeys);
+            mLabelsKeys.addAll(mKeys);
+            if (mExtraCapitalKeys != null) {
+                for (int position = 0; position < mKeys.size(); position++) {
+                    String extraKeys = mExtraCapitalKeys.get(position);
+                    if (!TextUtils.isEmpty(extraKeys)) {
+                        mKeys.set(position, mKeys.get(position) + extraKeys);
+                    }
+                }
+            }
             mCurrentKeys = CAPITAL_KEYS;
             lowerKeys = false;
         } else if (CAPITAL_KEYS == mCurrentKeys) {
             mKeys.addAll(mNumbersKeys);
+            mLabelsKeys.addAll(mKeys);
             mCurrentKeys = NUMBER_KEYS;
             lowerKeys = true;
         } else if (NUMBER_KEYS == mCurrentKeys) {
             mKeys.addAll(mLowerKeys);
+            mLabelsKeys.addAll(mKeys);
+            if (mExtraLowerKeys != null) {
+                for (int position = 0; position < mKeys.size(); position++) {
+                    String extraKeys = mExtraLowerKeys.get(position);
+                    if (!TextUtils.isEmpty(extraKeys)) {
+                        mKeys.set(position, mKeys.get(position) + extraKeys);
+                    }
+                }
+            }
             mCurrentKeys = LOWER_KEYS;
             lowerKeys = true;
         }
         for (int i = 0; i < 10; i++) {
-            mNumbers[i].setText(mKeys.get(i));
+            mNumbers[i].setText(mLabelsKeys.get(i));
             mNumbers[i].setTag(R.id.numbers_key, mKeys.get(i));
         }
         // set button selected
