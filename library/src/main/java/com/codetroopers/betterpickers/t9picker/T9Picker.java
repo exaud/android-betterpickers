@@ -2,12 +2,12 @@ package com.codetroopers.betterpickers.t9picker;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import com.codetroopers.betterpickers.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -25,6 +26,8 @@ import java.util.List;
  */
 public class T9Picker extends LinearLayout implements Button.OnClickListener,
         Button.OnLongClickListener {
+
+    private static final String TAG = "T9Picker";
 
     protected int mInputSize = 160;
     protected final Button mNumbers[] = new Button[10];
@@ -95,23 +98,11 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
         mClickedTimestamp = System.currentTimeMillis();
         mKeys = new ArrayList<>();
 
-        mLowerKeys = new ArrayList<>();
-        mLowerKeys.add(" ");
-        mLowerKeys.add(".,?");mLowerKeys.add("abc");mLowerKeys.add("def");
-        mLowerKeys.add("ghi");mLowerKeys.add("jkl");mLowerKeys.add("mno");
-        mLowerKeys.add("pqrs");mLowerKeys.add("tuv");mLowerKeys.add("wxyz");
+        mLowerKeys = buildKeys(R.array.keys_lower);
 
-        mCapitalKeys = new ArrayList<>();
-        mCapitalKeys.add(" ");
-        mCapitalKeys.add("-_!");mCapitalKeys.add("ABC");mCapitalKeys.add("DEF");
-        mCapitalKeys.add("GHI");mCapitalKeys.add("JKL");mCapitalKeys.add("MNO");
-        mCapitalKeys.add("PQRS");mCapitalKeys.add("TUV");mCapitalKeys.add("WXYZ");
+        mCapitalKeys = buildKeys(R.array.keys_capital);
 
-        mNumbersKeys = new ArrayList<>();
-        mNumbersKeys.add("0");
-        mNumbersKeys.add("1");mNumbersKeys.add("2");mNumbersKeys.add("3");
-        mNumbersKeys.add("4");mNumbersKeys.add("5");mNumbersKeys.add("6");
-        mNumbersKeys.add("7");mNumbersKeys.add("8");mNumbersKeys.add("9");
+        mNumbersKeys = buildKeys(R.array.keys_numbers);
 
         mKeys.addAll(mLowerKeys);
         mCurrentKeys = LOWER_KEYS;
@@ -219,7 +210,6 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
         }
         updateText();
 
-        Resources res = mContext.getResources();
         mLeft.setBackgroundResource(mKeyBackgroundResId);
         mLeft.setImageDrawable(getResources().getDrawable(mShiftDrawableSrcResId));
         mRight.setBackgroundResource(mKeyBackgroundResId);
@@ -506,6 +496,23 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
 
     public void removeTextWatcher(TextWatcher textWatcher) {
         mEnteredText.removeTextWatcher(textWatcher);
+    }
+
+    private List<String> buildKeys(int stringArrayId) {
+        List<String> result = null;
+
+        if (stringArrayId != -1) {
+            String[] keys = getResources().getStringArray(stringArrayId);
+            if (keys != null) {
+                if (keys.length == 10) {
+                    result = Arrays.asList(keys);
+                } else if (keys.length != 0) {
+                    Log.w(TAG, "StringArray with id " + stringArrayId + " is incomplete!");
+                }
+            }
+        }
+
+        return result;
     }
 
     private static class SavedState extends BaseSavedState {
