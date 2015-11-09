@@ -201,7 +201,7 @@
 
     <string-array name="keys_capital">
         <item>"  "</item>
-        <item>.,?</item>
+        <item>-_!</item>
         <item>ABC</item>
         <item>DEF</item>
         <item>GHI</item>
