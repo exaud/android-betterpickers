@@ -185,5 +185,51 @@
                  this matter.
                   -->
     <string name="palestine_display_name">Palestine</string>
+
+    <string-array name="keys_lower">
+        <item>"  "</item>
+        <item>.,?</item>
+        <item>abc</item>
+        <item>def</item>
+        <item>ghi</item>
+        <item>jkl</item>
+        <item>mno</item>
+        <item>pqrs</item>
+        <item>tuv</item>
+        <item>wxyz</item>
+    </string-array>
+
+    <string-array name="keys_capital">
+        <item>"  "</item>
+        <item>-_!</item>
+        <item>ABC</item>
+        <item>DEF</item>
+        <item>GHI</item>
+        <item>JKL</item>
+        <item>MNO</item>
+        <item>PQRS</item>
+        <item>TUV</item>
+        <item>WXYZ</item>
+    </string-array>
+
+    <string-array name="keys_numbers">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+    </string-array>
+
+    <string-array name="keys_extra_lower">
+    </string-array>
+
+    <string-array name="keys_extra_capital">
+    </string-array>
+
 </resources>
 
