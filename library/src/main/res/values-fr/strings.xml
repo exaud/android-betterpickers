@@ -260,5 +260,31 @@
         <item>chaque dernier samedi</item>
     </string-array>
 
+    <string-array name="keys_extra_lower">
+        <item></item>
+        <item>€</item>
+        <item>àâäç</item>
+        <item>èéêë</item>
+        <item>îï</item>
+        <item></item>
+        <item>ôœ</item>
+        <item></item>
+        <item>ùûü</item>
+        <item>ÿ</item>
+    </string-array>
+
+    <string-array name="keys_extra_capital">
+        <item></item>
+        <item>€</item>
+        <item>ÀÂÄÇ</item>
+        <item>ÈÉÊË</item>
+        <item>ÎÏ</item>
+        <item></item>
+        <item>ÔŒ</item>
+        <item></item>
+        <item>ÙÛÜ</item>
+        <item>Ÿ</item>
+    </string-array>
+
 </resources>
 

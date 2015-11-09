@@ -83,4 +83,31 @@
 
     <!-- DO NOT TRANSLATE -->
     <string name="day_of_week_label_typeface">sans-serif</string>
+
+    <string-array name="keys_extra_lower">
+        <item></item>
+        <item>€</item>
+        <item>à</item>
+        <item>èé</item>
+        <item>ì</item>
+        <item></item>
+        <item>òó</item>
+        <item></item>
+        <item>ù</item>
+        <item></item>
+    </string-array>
+
+    <string-array name="keys_extra_capital">
+        <item></item>
+        <item>€</item>
+        <item>À</item>
+        <item>ÈÉ</item>
+        <item>Ì</item>
+        <item></item>
+        <item>ÒÓ</item>
+        <item></item>
+        <item>Ù</item>
+        <item></item>
+    </string-array>
+
 </resources>
