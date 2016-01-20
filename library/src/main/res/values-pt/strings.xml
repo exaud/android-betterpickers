@@ -176,30 +176,26 @@
                   -->
     <string name="palestine_display_name">Palestina</string>
 
-    <string-array name="keys_lower_extra">
-        <item></item>
-        <item>€</item>
-        <item>àáâãç</item>
-        <item>éê</item>
-        <item>í</item>
-        <item></item>
-        <item>óôõ</item>
-        <item></item>
-        <item>ú</item>
-        <item></item>
-    </string-array>
+    <!--0-->
+    <string name="keys_lower_extra_1">€</string>
+    <string name="keys_lower_extra_2">àáâãç</string>
+    <string name="keys_lower_extra_3">éê</string>
+    <string name="keys_lower_extra_4">í</string>
+    <!--5-->
+    <string name="keys_lower_extra_6">óôõ</string>
+    <!--7-->
+    <string name="keys_lower_extra_8">ú</string>
+    <!--9-->
 
-    <string-array name="keys_capital_extra">
-        <item></item>
-        <item>€</item>
-        <item>ÀÁÂÃÇ</item>
-        <item>ÉÊ</item>
-        <item>Í</item>
-        <item></item>
-        <item>ÓÔÕ</item>
-        <item></item>
-        <item>Ú</item>
-        <item></item>
-    </string-array>
+    <!--0-->
+    <string name="keys_capital_extra_1">€</string>
+    <string name="keys_capital_extra_2">ÀÁÂÃÇ</string>
+    <string name="keys_capital_extra_3">ÉÊ</string>
+    <string name="keys_capital_extra_4">Í</string>
+    <!--5-->
+    <string name="keys_capital_extra_6">ÓÔÕ</string>
+    <!--7-->
+    <string name="keys_capital_extra_8">Ú</string>
+    <!--9-->
 
 </resources>
