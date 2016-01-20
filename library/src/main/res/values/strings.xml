@@ -231,5 +231,31 @@
     <string-array name="keys_capital_extra">
     </string-array>
 
+    <string-array name="keys_lower_label">
+        <item>␣</item>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+    </string-array>
+
+    <string-array name="keys_capital_label">
+        <item>␣</item>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+    </string-array>
+
 </resources>
 

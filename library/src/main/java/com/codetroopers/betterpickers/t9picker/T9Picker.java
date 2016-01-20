@@ -54,7 +54,8 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
     private int mTheme = -1;
 
     private List<String> mKeys, mLowerKeys, mCapitalKeys, mNumbersKeys;
-    private List<String> mLabelsKeys, mExtraLowerKeys, mExtraCapitalKeys;
+    private List<String> mLabelsKeys, mExtraLowerKeys, mExtraCapitalKeys,
+            mLabelLowerKeys, mLabelCapitalKeys;
     private String mLastKey;
     private int mCurrentKey;
     private long mClickedTimestamp;
@@ -102,15 +103,20 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
 
         mLowerKeys = buildKeys(R.array.keys_lower);
         mExtraLowerKeys = buildKeys(R.array.keys_lower_extra);
+        mLabelLowerKeys = buildKeys(R.array.keys_lower_label);
 
         mCapitalKeys = buildKeys(R.array.keys_capital);
         mExtraCapitalKeys = buildKeys(R.array.keys_capital_extra);
+        mLabelCapitalKeys = buildKeys(R.array.keys_capital_label);
 
         mNumbersKeys = buildKeys(R.array.keys_numbers);
 
         mKeys.addAll(mLowerKeys);
         mCurrentKeys = LOWER_KEYS;
+
         mLabelsKeys = new ArrayList<>(mKeys);
+        setLabelKeys(mLabelLowerKeys);
+
         if (mExtraLowerKeys != null) {
             for (int position = 0; position < mKeys.size(); position++) {
                 String extraKeys = mExtraLowerKeys.get(position);
@@ -330,6 +336,17 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
         mEnteredText.setText(mLabelText);
     }
 
+    private void setLabelKeys(List<String> labelKeys) {
+        if (labelKeys != null) {
+            for (int position = 0; position < mLabelsKeys.size(); position++) {
+                String labels = labelKeys.get(position);
+                if (!TextUtils.isEmpty(labels)) {
+                    mLabelsKeys.set(position, labels);
+                }
+            }
+        }
+    }
+
     /**
      * Reset all inputs.
      */
@@ -392,7 +409,10 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
         mLabelsKeys.clear();
         if (LOWER_KEYS == mCurrentKeys) {
             mKeys.addAll(mCapitalKeys);
+
             mLabelsKeys.addAll(mKeys);
+            setLabelKeys(mLabelCapitalKeys);
+
             if (mExtraCapitalKeys != null) {
                 for (int position = 0; position < mKeys.size(); position++) {
                     String extraKeys = mExtraCapitalKeys.get(position);
@@ -401,16 +421,22 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
                     }
                 }
             }
+
             mCurrentKeys = CAPITAL_KEYS;
             lowerKeys = false;
         } else if (CAPITAL_KEYS == mCurrentKeys) {
             mKeys.addAll(mNumbersKeys);
+
             mLabelsKeys.addAll(mKeys);
+
             mCurrentKeys = NUMBER_KEYS;
             lowerKeys = true;
         } else if (NUMBER_KEYS == mCurrentKeys) {
             mKeys.addAll(mLowerKeys);
+
             mLabelsKeys.addAll(mKeys);
+            setLabelKeys(mLabelLowerKeys);
+
             if (mExtraLowerKeys != null) {
                 for (int position = 0; position < mKeys.size(); position++) {
                     String extraKeys = mExtraLowerKeys.get(position);
@@ -419,6 +445,7 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
                     }
                 }
             }
+
             mCurrentKeys = LOWER_KEYS;
             lowerKeys = true;
         }
