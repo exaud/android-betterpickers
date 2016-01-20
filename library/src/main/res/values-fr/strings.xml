@@ -261,7 +261,7 @@
     </string-array>
 
     <!--0-->
-    <string name="keys_lower_extra_1">€</string>
+    <!--1-->
     <string name="keys_lower_extra_2">àâäç</string>
     <string name="keys_lower_extra_3">èéêë</string>
     <string name="keys_lower_extra_4">îï</string>
@@ -272,7 +272,7 @@
     <string name="keys_lower_extra_9">ÿ</string>
 
     <!--0-->
-    <string name="keys_capital_extra_1">€</string>
+    <!--1-->
     <string name="keys_capital_extra_2">ÀÂÄÇ</string>
     <string name="keys_capital_extra_3">ÈÉÊË</string>
     <string name="keys_capital_extra_4">ÎÏ</string>

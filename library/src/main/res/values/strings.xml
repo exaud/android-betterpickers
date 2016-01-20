@@ -239,7 +239,7 @@
     </string-array>
 
     <string name="keys_lower_extra_0" />
-    <string name="keys_lower_extra_1" />
+    <string name="keys_lower_extra_1" >@string/keys_special_symbols</string>
     <string name="keys_lower_extra_2" />
     <string name="keys_lower_extra_3" />
     <string name="keys_lower_extra_4" />
@@ -263,7 +263,7 @@
     </string-array>
 
     <string name="keys_capital_extra_0" />
-    <string name="keys_capital_extra_1" />
+    <string name="keys_capital_extra_1">@string/keys_special_symbols</string>
     <string name="keys_capital_extra_2" />
     <string name="keys_capital_extra_3" />
     <string name="keys_capital_extra_4" />
@@ -272,6 +272,8 @@
     <string name="keys_capital_extra_7" />
     <string name="keys_capital_extra_8" />
     <string name="keys_capital_extra_9" />
+
+    <string name="keys_special_symbols">€$:);(=</string>
 
     <string-array name="keys_lower_label">
         <item>␣</item>

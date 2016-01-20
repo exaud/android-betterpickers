@@ -177,7 +177,7 @@
     <string name="palestine_display_name">Palästina</string>
 
     <!--0-->
-    <string name="keys_lower_extra_1">€</string>
+    <!--1-->
     <string name="keys_lower_extra_2">ä</string>
     <!--3-->
     <!--4-->
@@ -188,7 +188,7 @@
     <!--9-->
 
     <!--0-->
-    <string name="keys_capital_extra_1">€</string>
+    <!--1-->
     <string name="keys_capital_extra_2">Ä</string>
     <!--3-->
     <!--4-->

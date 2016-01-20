@@ -187,7 +187,7 @@
     <string name="palestine_display_name">Palestina</string>
 
     <!--0-->
-    <string name="keys_lower_extra_1">€¿</string>
+    <!--1-->
     <string name="keys_lower_extra_2">á</string>
     <string name="keys_lower_extra_3">é</string>
     <string name="keys_lower_extra_4">í</string>
@@ -198,7 +198,7 @@
     <!--9-->
 
     <!--0-->
-    <string name="keys_capital_extra_1">€¡</string>
+    <!--1-->
     <string name="keys_capital_extra_2">Á</string>
     <string name="keys_capital_extra_3">É</string>
     <string name="keys_capital_extra_4">Í</string>
@@ -207,5 +207,7 @@
     <!--7-->
     <string name="keys_capital_extra_8">ÚÜ</string>
     <!--9-->
+
+    <string name="keys_special_symbols">€¿¡$:);(=</string>
 
 </resources>

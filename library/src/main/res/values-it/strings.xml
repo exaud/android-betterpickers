@@ -85,7 +85,7 @@
     <string name="day_of_week_label_typeface">sans-serif</string>
 
     <!--0-->
-    <string name="keys_lower_extra_1">€</string>
+    <!--1-->
     <string name="keys_lower_extra_2">à</string>
     <string name="keys_lower_extra_3">èé</string>
     <string name="keys_lower_extra_4">ì</string>
@@ -96,7 +96,7 @@
     <!--9-->
 
     <!--0-->
-    <string name="keys_capital_extra_1">€</string>
+    <!--1-->
     <string name="keys_capital_extra_2">À</string>
     <string name="keys_capital_extra_3">ÈÉ</string>
     <string name="keys_capital_extra_4">Ì</string>
