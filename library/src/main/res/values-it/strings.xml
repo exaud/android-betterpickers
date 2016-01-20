@@ -84,7 +84,7 @@
     <!-- DO NOT TRANSLATE -->
     <string name="day_of_week_label_typeface">sans-serif</string>
 
-    <string-array name="keys_extra_lower">
+    <string-array name="keys_lower_extra">
         <item></item>
         <item>€</item>
         <item>à</item>
@@ -97,7 +97,7 @@
         <item></item>
     </string-array>
 
-    <string-array name="keys_extra_capital">
+    <string-array name="keys_capital_extra">
         <item></item>
         <item>€</item>
         <item>À</item>

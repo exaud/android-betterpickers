@@ -101,10 +101,10 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
         mKeys = new ArrayList<>();
 
         mLowerKeys = buildKeys(R.array.keys_lower);
-        mExtraLowerKeys = buildKeys(R.array.keys_extra_lower);
+        mExtraLowerKeys = buildKeys(R.array.keys_lower_extra);
 
         mCapitalKeys = buildKeys(R.array.keys_capital);
-        mExtraCapitalKeys = buildKeys(R.array.keys_extra_capital);
+        mExtraCapitalKeys = buildKeys(R.array.keys_capital_extra);
 
         mNumbersKeys = buildKeys(R.array.keys_numbers);
 

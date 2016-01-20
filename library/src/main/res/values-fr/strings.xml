@@ -260,7 +260,7 @@
         <item>chaque dernier samedi</item>
     </string-array>
 
-    <string-array name="keys_extra_lower">
+    <string-array name="keys_lower_extra">
         <item></item>
         <item>€</item>
         <item>àâäç</item>
@@ -273,7 +273,7 @@
         <item>ÿ</item>
     </string-array>
 
-    <string-array name="keys_extra_capital">
+    <string-array name="keys_capital_extra">
         <item></item>
         <item>€</item>
         <item>ÀÂÄÇ</item>

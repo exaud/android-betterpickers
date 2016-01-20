@@ -186,7 +186,7 @@
                   -->
     <string name="palestine_display_name">Palestina</string>
 
-    <string-array name="keys_extra_lower">
+    <string-array name="keys_lower_extra">
         <item></item>
         <item>€¿</item>
         <item>á</item>
@@ -199,7 +199,7 @@
         <item></item>
     </string-array>
 
-    <string-array name="keys_extra_capital">
+    <string-array name="keys_capital_extra">
         <item></item>
         <item>€¡</item>
         <item>Á</item>

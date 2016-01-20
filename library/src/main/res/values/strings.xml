@@ -225,10 +225,10 @@
         <item>9</item>
     </string-array>
 
-    <string-array name="keys_extra_lower">
+    <string-array name="keys_lower_extra">
     </string-array>
 
-    <string-array name="keys_extra_capital">
+    <string-array name="keys_capital_extra">
     </string-array>
 
 </resources>
