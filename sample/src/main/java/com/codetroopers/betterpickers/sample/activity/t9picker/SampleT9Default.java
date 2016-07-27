@@ -33,7 +33,7 @@ public class SampleT9Default extends BaseSampleActivity
             @Override
             public void onClick(View v) {
                 T9PickerBuilder npb = new T9PickerBuilder()
-                        .setFragmentManager(getSupportFragmentManager())
+                        .setFragmentManager(getFragmentManager())
                         .setStyleResId(R.style.BetterPickersDialogFragment);
                 npb.show();
             }

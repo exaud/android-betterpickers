@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "com.codetroopers.betterpickersapp"
-        minSdkVersion 9
+        minSdkVersion 11
         targetSdkVersion 22
         versionCode 12
         versionName "2.0.0-SNAPSHOT"

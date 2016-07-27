@@ -1,8 +1,8 @@
 package com.codetroopers.betterpickers.t9picker;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.text.TextWatcher;
 import android.util.Log;
 
