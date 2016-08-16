@@ -332,7 +332,7 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
         }
     }
 
-    private void showLabel() {
+    public void showLabel() {
         mEnteredText.setText(mLabelText);
     }
 
