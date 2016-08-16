@@ -199,4 +199,8 @@ public class T9PickerDialogFragment extends DialogFragment {
             mPicker.removeTextWatcher(mTextWatcher);
         }
     }
+
+    public T9Picker getT9Picker() {
+        return this.mPicker;
+    }
 }
