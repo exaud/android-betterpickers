@@ -9,6 +9,7 @@
 ![BetterPickers Feature Graphic][5]
 
 DialogFragments modeled after the AOSP Clock and Calendar apps to improve UX for picking time, date, numbers, and other things.
+This custom fork developed by Exaud has adds support for a T9-style keyboard for the Android Wear platform.
 
 Try out the sample application on [Google Play][6].
 
