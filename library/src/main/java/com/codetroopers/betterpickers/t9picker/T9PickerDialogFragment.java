@@ -25,6 +25,7 @@ public class T9PickerDialogFragment extends DialogFragment {
     private static final String THEME_RES_ID_KEY = "T9PickerDialogFragment_ThemeResIdKey";
     private static final String ROUND_WEARABLE_MARGIN_KEY = "T9PickerDialogFragment_RoundWearableMarginKey";
     private static final String LABEL_TEXT_KEY = "T9PickerDialogFragment_LabelTextKey";
+    private static final String VIBRATE_KEY = "T9PickerDialogFragment_VibrateKey";
 
     private Button mSet, mCancel;
     private com.codetroopers.betterpickers.t9picker.T9Picker mPicker;
@@ -42,6 +43,7 @@ public class T9PickerDialogFragment extends DialogFragment {
     private Vector<T9PickerDialogHandler> mT9PickerDialogHandlers = new Vector<T9PickerDialogHandler>();
 
     private TextWatcher mTextWatcher;
+    private boolean mVibrate;
 
     /**
      * Create an instance of the Picker (used internally)
@@ -54,7 +56,7 @@ public class T9PickerDialogFragment extends DialogFragment {
      * @return a Picker!
      */
     public static com.codetroopers.betterpickers.t9picker.T9PickerDialogFragment newInstance(int reference, int themeResId,
-                                                         String labelText, TextWatcher textWatcher, int roundWearableMargin) {
+                                                         String labelText, TextWatcher textWatcher, int roundWearableMargin, boolean vibrate) {
         final com.codetroopers.betterpickers.t9picker.T9PickerDialogFragment frag = new com.codetroopers.betterpickers.t9picker.T9PickerDialogFragment();
         Bundle args = new Bundle();
         args.putInt(REFERENCE_KEY, reference);
@@ -65,6 +67,9 @@ public class T9PickerDialogFragment extends DialogFragment {
         }
         frag.setArguments(args);
         frag.addTextWatcher(textWatcher);
+        if (vibrate) {
+            args.putBoolean(VIBRATE_KEY, vibrate);
+        }
 
         return frag;
     }
@@ -90,6 +95,9 @@ public class T9PickerDialogFragment extends DialogFragment {
         }
         if (args != null && args.containsKey(ROUND_WEARABLE_MARGIN_KEY)) {
             roundWearableMargin = args.getInt(ROUND_WEARABLE_MARGIN_KEY);
+        }
+        if (args != null && args.containsKey(VIBRATE_KEY)) {
+            mVibrate = args.getBoolean(VIBRATE_KEY);
         }
         setStyle(DialogFragment.STYLE_NO_TITLE, 0);
 
@@ -173,6 +181,9 @@ public class T9PickerDialogFragment extends DialogFragment {
         mPicker.setSetClickListener(setClickListener);
         if (mTextWatcher != null) {
             mPicker.addTextWatcher(mTextWatcher);
+        }
+        if (mVibrate) {
+            mPicker.setVibrate(true);
         }
 
         return v;

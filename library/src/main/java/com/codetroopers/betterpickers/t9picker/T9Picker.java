@@ -66,6 +66,7 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
     private final int NUMBER_KEYS = 3;
 
     private OnClickListener mSetClickListener = null;
+    private boolean mVibrate = false;
 
     /**
      * Instantiates a T9Picker object
@@ -264,7 +265,9 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
 
     @Override
     public void onClick(View v) {
-        v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+        if (mVibrate) {
+            v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+        }
         mError.hideImmediately();
         doOnClick(v);
         updateDeleteButton();
@@ -293,7 +296,9 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
 
     @Override
     public boolean onLongClick(View v) {
-        v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+        if (mVibrate) {
+            v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+        }
         mError.hideImmediately();
         if (v == mDelete) {
             mDelete.setPressed(false);
@@ -573,6 +578,10 @@ public class T9Picker extends LinearLayout implements Button.OnClickListener,
         }
 
         return result;
+    }
+
+    public void setVibrate(boolean vibrate) {
+        this.mVibrate = vibrate;
     }
 
     private static class SavedState extends BaseSavedState {
