@@ -23,6 +23,7 @@ public class T9PickerDialogFragment extends DialogFragment {
 
     private static final String REFERENCE_KEY = "T9PickerDialogFragment_ReferenceKey";
     private static final String THEME_RES_ID_KEY = "T9PickerDialogFragment_ThemeResIdKey";
+    private static final String ROUND_WEARABLE_MARGIN_KEY = "T9PickerDialogFragment_RoundWearableMarginKey";
     private static final String LABEL_TEXT_KEY = "T9PickerDialogFragment_LabelTextKey";
 
     private Button mSet, mCancel;
@@ -36,6 +37,7 @@ public class T9PickerDialogFragment extends DialogFragment {
     private String mLabelText = "";
     private int mButtonBackgroundResId;
     private int mDialogBackgroundResId;
+    private int roundWearableMargin;
 
     private Vector<T9PickerDialogHandler> mT9PickerDialogHandlers = new Vector<T9PickerDialogHandler>();
 
@@ -48,14 +50,16 @@ public class T9PickerDialogFragment extends DialogFragment {
      * @param themeResId the style resource ID for theming
      * @param labelText (optional) text to add as a label
      * @param textWatcher (optional) TextWatcher to be used on calling method
+     * @param roundWearableMargin
      * @return a Picker!
      */
     public static com.codetroopers.betterpickers.t9picker.T9PickerDialogFragment newInstance(int reference, int themeResId,
-                                                         String labelText, TextWatcher textWatcher) {
+                                                         String labelText, TextWatcher textWatcher, int roundWearableMargin) {
         final com.codetroopers.betterpickers.t9picker.T9PickerDialogFragment frag = new com.codetroopers.betterpickers.t9picker.T9PickerDialogFragment();
         Bundle args = new Bundle();
         args.putInt(REFERENCE_KEY, reference);
         args.putInt(THEME_RES_ID_KEY, themeResId);
+        args.putInt(ROUND_WEARABLE_MARGIN_KEY, roundWearableMargin);
         if (labelText != null) {
             args.putString(LABEL_TEXT_KEY, labelText);
         }
@@ -84,7 +88,9 @@ public class T9PickerDialogFragment extends DialogFragment {
         if (args != null && args.containsKey(LABEL_TEXT_KEY)) {
             mLabelText = args.getString(LABEL_TEXT_KEY);
         }
-
+        if (args != null && args.containsKey(ROUND_WEARABLE_MARGIN_KEY)) {
+            roundWearableMargin = args.getInt(ROUND_WEARABLE_MARGIN_KEY);
+        }
         setStyle(DialogFragment.STYLE_NO_TITLE, 0);
 
         // Init defaults
@@ -111,6 +117,8 @@ public class T9PickerDialogFragment extends DialogFragment {
             Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.t9_picker_dialog, null);
+        v.setPadding(roundWearableMargin, roundWearableMargin, roundWearableMargin, roundWearableMargin);
+
         mSet = (Button) v.findViewById(R.id.set_button);
         mCancel = (Button) v.findViewById(R.id.cancel_button);
         mCancel.setOnClickListener(new View.OnClickListener() {

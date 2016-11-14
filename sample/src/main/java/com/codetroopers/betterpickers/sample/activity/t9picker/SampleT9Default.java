@@ -19,6 +19,8 @@ public class SampleT9Default extends BaseSampleActivity
     private TextView mText;
     private Button mButton;
 
+    private int roundWearableMargin = 0;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +37,7 @@ public class SampleT9Default extends BaseSampleActivity
                 T9PickerBuilder npb = new T9PickerBuilder()
                         .setFragmentManager(getSupportFragmentManager())
                         .setStyleResId(R.style.BetterPickersDialogFragment);
-                npb.show();
+                npb.show(roundWearableMargin);
             }
         });
     }

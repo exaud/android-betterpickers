@@ -111,7 +111,7 @@ public class T9PickerBuilder {
     /**
      * Instantiate and show the Picker
      */
-    public void show() {
+    public void show(int roundWearableMargin) {
         if (manager == null || styleResId == null) {
             Log.e("T9PickerBuilder", "setFragmentManager() and setStyleResId() must be called.");
             return;
@@ -124,7 +124,7 @@ public class T9PickerBuilder {
         ft.addToBackStack(null);
 
         final T9PickerDialogFragment fragment = T9PickerDialogFragment
-                .newInstance(mReference, styleResId, labelText, mTextWatcher);
+                .newInstance(mReference, styleResId, labelText, mTextWatcher, roundWearableMargin);
         if (targetFragment != null) {
             fragment.setTargetFragment(targetFragment, 0);
         }
