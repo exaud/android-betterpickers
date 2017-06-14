@@ -344,6 +344,7 @@ public class PhoneNumberPicker extends LinearLayout implements Button.OnClickLis
      */
     private void onLeftClicked() {
         mLeftClicked = true;
+        mLeft.setEnabled(false);
     }
 
     /**
@@ -390,7 +391,7 @@ public class PhoneNumberPicker extends LinearLayout implements Button.OnClickLis
     }
 
     private void updateLeftRightButtons() {
-        mLeft.setEnabled(mInputPointer == -1);
+        mLeft.setEnabled(mInputPointer == -1 && !mLeftClicked);
         mRight.setEnabled(mInputPointer != -1);
     }
 
