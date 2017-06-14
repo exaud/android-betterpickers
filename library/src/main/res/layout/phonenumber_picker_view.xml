@@ -23,7 +23,7 @@
                 android:layout_gravity="left"
                 android:baselineAligned="false"
                 android:gravity="top">
-                <com.codetroopers.betterpickers.widget.ZeroTopPaddingTextView
+                <TextView
                     android:id="@+id/number"
                     android:singleLine="true"
                     android:ellipsize="none"

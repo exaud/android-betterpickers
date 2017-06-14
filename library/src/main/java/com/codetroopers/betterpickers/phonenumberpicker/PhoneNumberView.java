@@ -5,17 +5,15 @@ import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.codetroopers.betterpickers.R;
-import com.codetroopers.betterpickers.widget.ZeroTopPaddingTextView;
 
 public class PhoneNumberView extends LinearLayout {
 
-    private ZeroTopPaddingTextView mNumber;
-    private final Typeface mAndroidClockMonoThin;
-
+    private TextView mNumber;
+    private Typeface mOriginalTextTypeface;
     private ColorStateList mTextColor;
 
     /**
@@ -35,9 +33,6 @@ public class PhoneNumberView extends LinearLayout {
      */
     public PhoneNumberView(Context context, AttributeSet attrs) {
         super(context, attrs);
-
-        mAndroidClockMonoThin =
-                Typeface.createFromAsset(context.getAssets(), "fonts/AndroidClockMono-Thin.ttf");
 
         // Init defaults
         mTextColor = getResources().getColorStateList(R.color.dialog_text_color_holo_dark);
@@ -68,11 +63,9 @@ public class PhoneNumberView extends LinearLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
 
-        mNumber = (ZeroTopPaddingTextView) findViewById(R.id.number);
-        // Set the lowest time unit with thin font
+        mNumber = (TextView) findViewById(R.id.number);
         if (mNumber != null) {
-            mNumber.setTypeface(mAndroidClockMonoThin);
-            mNumber.updatePadding();
+            mOriginalTextTypeface = mNumber.getTypeface();
         }
 
         restyleViews();
@@ -88,17 +81,13 @@ public class PhoneNumberView extends LinearLayout {
             if (numbersDigit.equals("")) {
                 // Set to -
                 mNumber.setText("-");
-                mNumber.setTypeface(mAndroidClockMonoThin);
+                mNumber.setTypeface(mOriginalTextTypeface);
                 mNumber.setEnabled(false);
-                mNumber.updatePadding();
-                mNumber.setVisibility(View.VISIBLE);
             } else {
                 // Set to thin
                 mNumber.setText(numbersDigit);
-                mNumber.setTypeface(mAndroidClockMonoThin);
+                mNumber.setTypeface(mOriginalTextTypeface);
                 mNumber.setEnabled(true);
-                mNumber.updatePadding();
-                mNumber.setVisibility(View.VISIBLE);
             }
         }
     }
