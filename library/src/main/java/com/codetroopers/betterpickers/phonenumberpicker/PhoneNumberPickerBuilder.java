@@ -18,16 +18,10 @@ public class PhoneNumberPickerBuilder {
     private FragmentManager manager; // Required
     private Integer styleResId; // Required
     private Fragment targetFragment;
-    private Integer minNumber;
-    private Integer maxNumber;
-    private Integer plusMinusVisibility;
-    private Integer decimalVisibility;
     private String labelText;
     private int mReference;
     private Vector<PhoneNumberPickerDialogHandler> mPhoneNumberPickerDialogHandlers = new Vector<PhoneNumberPickerDialogHandler>();
     private Integer currentNumberValue;
-    private Double currentDecimalValue;
-    private Integer currentSignValue;
 
     /**
      * Attach a FragmentManager. This is required for creation of the Fragment.
@@ -79,15 +73,7 @@ public class PhoneNumberPickerBuilder {
      */
     public PhoneNumberPickerBuilder setCurrentNumber(Integer number) {
         if (number != null) {
-            if (number >= 0) {
-                this.currentSignValue = PhoneNumberPicker.SIGN_POSITIVE;
-            } else {
-                this.currentSignValue = PhoneNumberPicker.SIGN_NEGATIVE;
-                number = number * -1;
-            }
-
             this.currentNumberValue = number;
-            this.currentDecimalValue = null;
         }
         return this;
     }
@@ -97,66 +83,9 @@ public class PhoneNumberPickerBuilder {
      */
     public PhoneNumberPickerBuilder setCurrentNumber(Double number) {
         if (number != null) {
-            if (number >= 0) {
-                this.currentSignValue = PhoneNumberPicker.SIGN_POSITIVE;
-            } else {
-                this.currentSignValue = PhoneNumberPicker.SIGN_NEGATIVE;
-                number = number * -1;
-            }
             BigDecimal[] numberInput = BigDecimal.valueOf(number).divideAndRemainder(BigDecimal.ONE);
             this.currentNumberValue = numberInput[0].intValue();
-            this.currentDecimalValue = numberInput[1].doubleValue();
         }
-        return this;
-    }
-
-    /**
-     * Set a minimum number required
-     *
-     * @param minNumber the minimum required number
-     * @return the current Builder object
-     */
-    public PhoneNumberPickerBuilder setMinNumber(int minNumber) {
-        this.minNumber = minNumber;
-        return this;
-    }
-
-    /**
-     * Set a maximum number required
-     *
-     * @param maxNumber the maximum required number
-     * @return the current Builder object
-     */
-    public PhoneNumberPickerBuilder setMaxNumber(int maxNumber) {
-        this.maxNumber = maxNumber;
-        return this;
-    }
-
-    /**
-     * Set the visibility of the +/- button. This takes an int corresponding to Android's View.VISIBLE, View.INVISIBLE,
-     * or View.GONE.  When using View.INVISIBLE, the +/- button will still be present in the layout but be
-     * non-clickable. When set to View.GONE, the +/- button will disappear entirely, and the "0" button will occupy its
-     * space.
-     *
-     * @param plusMinusVisibility an int corresponding to View.VISIBLE, View.INVISIBLE, or View.GONE
-     * @return the current Builder object
-     */
-    public PhoneNumberPickerBuilder setPlusMinusVisibility(int plusMinusVisibility) {
-        this.plusMinusVisibility = plusMinusVisibility;
-        return this;
-    }
-
-    /**
-     * Set the visibility of the decimal button. This takes an int corresponding to Android's View.VISIBLE,
-     * View.INVISIBLE, or View.GONE.  When using View.INVISIBLE, the decimal button will still be present in the layout
-     * but be non-clickable. When set to View.GONE, the decimal button will disappear entirely, and the "0" button will
-     * occupy its space.
-     *
-     * @param decimalVisibility an int corresponding to View.VISIBLE, View.INVISIBLE, or View.GONE
-     * @return the current Builder object
-     */
-    public PhoneNumberPickerBuilder setDecimalVisibility(int decimalVisibility) {
-        this.decimalVisibility = decimalVisibility;
         return this;
     }
 
@@ -213,8 +142,7 @@ public class PhoneNumberPickerBuilder {
         ft.addToBackStack(null);
 
         final PhoneNumberPickerDialogFragment fragment = PhoneNumberPickerDialogFragment
-                .newInstance(mReference, styleResId, minNumber, maxNumber, plusMinusVisibility, decimalVisibility,
-                        labelText, currentNumberValue, currentDecimalValue, currentSignValue, roundWearableMargin, vibrate);
+                .newInstance(mReference, styleResId, labelText, currentNumberValue, roundWearableMargin, vibrate);
         if (targetFragment != null) {
             fragment.setTargetFragment(targetFragment, 0);
         }

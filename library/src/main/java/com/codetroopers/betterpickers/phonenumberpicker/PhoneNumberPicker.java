@@ -16,8 +16,6 @@ import android.widget.TextView;
 
 import com.codetroopers.betterpickers.R;
 
-import java.math.BigDecimal;
-
 public class PhoneNumberPicker extends LinearLayout implements Button.OnClickListener,
         Button.OnLongClickListener {
 
@@ -32,13 +30,8 @@ public class PhoneNumberPicker extends LinearLayout implements Button.OnClickLis
 
     private TextView mLabel;
     private PhoneNumberPickerErrorTextView mError;
-    private int mSign;
     private String mLabelText = "";
     private Button mSetButton, mLeft;
-    private static final int CLICKED_DECIMAL = 10;
-
-    public static final int SIGN_POSITIVE = 0;
-    public static final int SIGN_NEGATIVE = 1;
 
     protected View mDivider;
     private ColorStateList mTextColor;
@@ -48,9 +41,6 @@ public class PhoneNumberPicker extends LinearLayout implements Button.OnClickLis
     private int mCheckDrawableSrcResId;
     private int mDeleteDrawableSrcResId;
     private int mTheme = -1;
-
-    private Integer mMinNumber = null;
-    private Integer mMaxNumber = null;
 
     private OnClickListener mSetClickListener;
     private boolean mVibrate = false;
@@ -197,7 +187,6 @@ public class PhoneNumberPicker extends LinearLayout implements Button.OnClickLis
         mRight.setImageDrawable(getResources().getDrawable(mCheckDrawableSrcResId));
         mRight.setOnClickListener(this);
         mLabel = (TextView) findViewById(R.id.label);
-        mSign = SIGN_POSITIVE;
 
         // Set the correct label state
         showLabel();
@@ -207,43 +196,14 @@ public class PhoneNumberPicker extends LinearLayout implements Button.OnClickLis
     }
 
     /**
-     * Using View.GONE, View.VISIBILE, or View.INVISIBLE, set the visibility of the plus/minus indicator
+     * Using View.GONE, View.VISIBILE, or View.INVISIBLE, set the visibility of the plus indicator
      *
-     * @param visiblity an int using Android's View.* convention
+     * @param visibility an int using Android's View.* convention
      */
-    public void setPlusVisibility(int visiblity) {
+    public void setPlusVisibility(int visibility) {
         if (mLeft != null) {
-            mLeft.setVisibility(visiblity);
+            mLeft.setVisibility(visibility);
         }
-    }
-
-    /**
-     * Using View.GONE, View.VISIBILE, or View.INVISIBLE, set the visibility of the decimal indicator
-     *
-     * @param visiblity an int using Android's View.* convention
-     */
-    public void setDecimalVisibility(int visiblity) {
-        if (mRight != null) {
-            mRight.setVisibility(visiblity);
-        }
-    }
-
-    /**
-     * Set a minimum required number
-     *
-     * @param min the minimum required number
-     */
-    public void setMin(int min) {
-        mMinNumber = min;
-    }
-
-    /**
-     * Set a maximum required number
-     *
-     * @param max the maximum required number
-     */
-    public void setMax(int max) {
-        mMaxNumber = max;
     }
 
     /**
@@ -356,21 +316,7 @@ public class PhoneNumberPicker extends LinearLayout implements Button.OnClickLis
     protected void updateNumber() {
         String numberString = getEnteredNumberString();
         numberString = numberString.replaceAll("\\-", "");
-        String[] split = numberString.split("\\.");
-        if (split.length >= 2) {
-            if (split[0].equals("")) {
-                mEnteredNumber.setNumber("0", split[1], containsDecimal(),
-                        mSign == SIGN_NEGATIVE);
-            } else {
-                mEnteredNumber.setNumber(split[0], split[1], containsDecimal(),
-                        mSign == SIGN_NEGATIVE);
-            }
-        } else if (split.length == 1) {
-            mEnteredNumber.setNumber(split[0], "", containsDecimal(),
-                    mSign == SIGN_NEGATIVE);
-        } else if (numberString.equals(".")) {
-            mEnteredNumber.setNumber("0", "", true, mSign == SIGN_NEGATIVE);
-        }
+        mEnteredNumber.setNumber(numberString);
     }
 
     protected void setLeftRightEnabled() {
@@ -381,7 +327,7 @@ public class PhoneNumberPicker extends LinearLayout implements Button.OnClickLis
     private void addClickedNumber(int val) {
         if (mInputPointer < mInputSize - 1) {
             // For 0 we need to check if we have a value of zero or not
-            if (mInput[0] == 0 && mInput[1] == -1 && !containsDecimal() && val != CLICKED_DECIMAL) {
+            if (mInput[0] == 0 && mInput[1] == -1) {
                 mInput[0] = val;
             } else {
                 for (int i = mInputPointer; i >= 0; i--) {
@@ -411,25 +357,6 @@ public class PhoneNumberPicker extends LinearLayout implements Button.OnClickLis
         }
     }
 
-    private boolean containsDecimal() {
-        boolean containsDecimal = false;
-        for (int i : mInput) {
-            if (i == 10) {
-                containsDecimal = true;
-            }
-        }
-        return containsDecimal;
-    }
-
-    /**
-     * Checks if the user allowed to click on the right button.
-     *
-     * @return true or false if the user is able to add a decimal or not
-     */
-    private boolean canAddDecimal() {
-        return !containsDecimal();
-    }
-
     public String getEnteredNumberString() {
         String value = "";
         if (mLeftClicked) {
@@ -455,14 +382,9 @@ public class PhoneNumberPicker extends LinearLayout implements Button.OnClickLis
         for (int i = mInputPointer; i >= 0; i--) {
             if (mInput[i] == -1) {
                 break;
-            } else if (mInput[i] == CLICKED_DECIMAL) {
-                value += ".";
             } else {
                 value += mInput[i];
             }
-        }
-        if (mSign == SIGN_NEGATIVE) {
-            value = "-" + value;
         }
         return Double.parseDouble(value);
     }
@@ -511,25 +433,6 @@ public class PhoneNumberPicker extends LinearLayout implements Button.OnClickLis
         return Integer.parseInt(split[0]);
     }
 
-    /**
-     * Returns the decimal following the number
-     *
-     * @return a double representation of the decimal value
-     */
-    public double getDecimal() {
-        double decimal = BigDecimal.valueOf(getEnteredNumber()).divideAndRemainder(BigDecimal.ONE)[1].doubleValue();
-        return decimal;
-    }
-
-    /**
-     * Returns whether the number is positive or negative
-     *
-     * @return true or false whether the number is positive or negative
-     */
-    public boolean getIsNegative() {
-        return mSign == SIGN_NEGATIVE;
-    }
-
     public void setVibrate(boolean vibrate) {
         this.mVibrate = vibrate;
     }
@@ -539,7 +442,6 @@ public class PhoneNumberPicker extends LinearLayout implements Button.OnClickLis
         final Parcelable parcel = super.onSaveInstanceState();
         final SavedState state = new SavedState(parcel);
         state.mInput = mInput;
-        state.mSign = mSign;
         state.mInputPointer = mInputPointer;
         return state;
     }
@@ -560,11 +462,10 @@ public class PhoneNumberPicker extends LinearLayout implements Button.OnClickLis
             mInput = new int[mInputSize];
             mInputPointer = -1;
         }
-        mSign = savedState.mSign;
         updateKeypad();
     }
 
-    public void setNumber(Integer integerPart, Double decimalPart, Integer mCurrentSign) {
+    public void setNumber(Integer integerPart) {
         if (integerPart != null) {
             if (integerPart.equals(Integer.valueOf(0))) {
                 mInputPointer++;
